@@ -6,7 +6,7 @@
  * seconds and doing it on every run would be a tax on the loop that matters.
  * Run it after a download and before trusting a committed report (D2).
  */
-import { loadManifest, sha256OfFile } from '../io/model-files.js';
+import { loadManifest, modelDownloadCommand, sha256OfFile } from '../io/model-files.js';
 import { existsSync, statSync } from 'node:fs';
 
 async function main(): Promise<number> {
@@ -15,7 +15,9 @@ async function main(): Promise<number> {
 
   for (const entry of manifest.models) {
     if (!existsSync(entry.file)) {
-      process.stdout.write(`MISSING  ${entry.id}  ${entry.file}\n`);
+      process.stdout.write(
+        `MISSING  ${entry.id}  ${entry.file}\n         ${modelDownloadCommand(entry)}\n`,
+      );
       failures += 1;
       continue;
     }

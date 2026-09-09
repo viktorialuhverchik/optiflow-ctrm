@@ -11,6 +11,10 @@ import { ManifestSchema, type Manifest, type ModelEntry } from '../llm/manifest.
 
 export const DEFAULT_MANIFEST = 'models/manifest.json';
 
+export function modelDownloadCommand(entry: ModelEntry): string {
+  return downloadHint(entry);
+}
+
 export function loadManifest(path: string = DEFAULT_MANIFEST): Manifest {
   if (!existsSync(path)) {
     throw new Error(`no model manifest at "${path}". See the README for the download step.`);
@@ -22,10 +26,15 @@ export function modelIsPresent(entry: ModelEntry): boolean {
   return existsSync(entry.file) && statSync(entry.file).size === entry.sizeBytes;
 }
 
+function downloadHint(entry: ModelEntry): string {
+  const url = `${entry.source}/resolve/main/${entry.file.split('/').pop() ?? ''}`;
+  return `curl -L -o ${entry.file} ${url}`;
+}
+
 export function requireModelFile(entry: ModelEntry): string {
   if (!existsSync(entry.file)) {
     throw new Error(
-      `model "${entry.id}" is not downloaded. Expected ${entry.file}. See the README.`,
+      `model "${entry.id}" is not downloaded. Expected ${entry.file}.\n  ${downloadHint(entry)}\nThen: pnpm model:verify`,
     );
   }
   const actual = statSync(entry.file).size;

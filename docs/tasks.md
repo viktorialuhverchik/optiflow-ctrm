@@ -147,8 +147,9 @@ second configuration and the agent spend are not.
 
 ## Phase 10 — README and handover
 
-- [ ] Every README section filled from real runs, no invented numbers
-- [ ] Architecture explained, layering diagram included
-- [ ] Known problems and failure cases written honestly, with the eval cases that expose them
-- [ ] Next steps
-- [ ] Fresh-clone walkthrough: install, run the extractor, run the eval, see the table
+- [x] Every README section filled from real runs. The one figure I could not measure, the agent spend, says so rather than being estimated.
+- [x] Architecture explained: the six-stage pipeline and the layering diagram, with the two consequences of the layering spelled out
+- [x] Known problems written against the eval case that exposes each, so a reviewer can reproduce with `pnpm eval --only <case>`
+- [x] Next steps ordered by what each is worth on the measured numbers, plus the two things I would deliberately not do
+- [x] Fresh-clone walkthrough, actually run: clone, install, `pnpm check`, baseline eval, download weights, extract, model eval. Every command in the README was executed against a clean checkout.
+- [x] `pnpm model:verify` and the extractor now print the exact `curl` line when a model is missing, rather than pointing at the README

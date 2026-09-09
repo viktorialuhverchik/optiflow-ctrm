@@ -4,12 +4,12 @@ Turns a free-text trade recap into one structured deal object, running entirely 
 a self-hosted open-weights model. No frontier-model API anywhere in the extraction
 path.
 
-> **Status: all phases of `docs/tasks.md` are complete.** The extractor passes the
-> release gate, the MCP server runs, the local model answers the provisional-value
-> question using both tools, and three configurations are measured. The one thing
-> still missing is the agent spend in dollars, which I cannot read from inside the
-> session. No number appears in this README that was not produced by a command in
-> this repository.
+> **Status: complete.** The extractor passes the release gate, the MCP server runs,
+> the local model answers the provisional-value question using both tools, and
+> three configurations are measured. Every command in the walkthrough below was run
+> against a fresh clone. No number in this README was produced by anything other
+> than a command in this repository, and the one figure I could not measure, the
+> agent spend, says so rather than being estimated.
 
 ---
 
@@ -35,7 +35,9 @@ mistake that reaches an invoice.
 
 ## How does it work?
 
-Four stages. The important design decision is the split in the middle.
+Six stages. The important design decision is the split in the middle: stage 1 is
+the only one that involves a model, and stage 6 is the only one that produces a
+number.
 
 ```
 recap text
@@ -61,6 +63,44 @@ recap text
    v
 deal object + questions
 ```
+
+### The layers
+
+The pipeline above cuts across four layers, and the dependency arrows only point
+one way. This is the rule the rest of the design hangs off.
+
+```
+cli.ts      eval/       mcp/          entry points. No business logic in any of
+   |          |           |           them; each is a thin shell over extract/.
+   +----------+-----------+
+              |
+              v
+          extract/                    orchestration: prompt, decode, verify
+              |                       evidence, check support, validate
+      +-------+-------+
+      |               |
+      v               v
+    llm/            domain/           llm/ talks to the model and computes
+  provider          PURE              nothing. domain/ computes everything and
+  grammar           no I/O            has never heard of a model.
+  adapters          no clock
+      |             no model
+      v                ^
+  llama.cpp            |
+                      io/             the filesystem edge, kept out of domain/
+                                      so that layer stays unit-testable
+```
+
+Two consequences worth stating.
+
+`domain/` has no dependency on `llm/`. Date resolution, unit conversion, price
+evaluation, FX and question generation are all unit tested with no weights on
+disk, which is why the whole suite of 219 tests runs in under a second.
+
+`extract/` is the only place that knows both. It is where a value stops being
+something a model said and becomes something the system will act on, which is why
+the evidence check, the support checks and the schema validation all live there
+rather than being spread around.
 
 **The model never does arithmetic.** It does not convert barrels to tonnes,
 average quotations, resolve `B/L +0/+3` into dates, or apply an FX rate. It reads
@@ -97,54 +137,90 @@ Full rules in [`docs/rules-and-constraints.md`](docs/rules-and-constraints.md).
 | **A provider interface with two adapters** | The eval harness has to swap models to be worth anything. | Hard-coding one runtime makes the configuration comparison in Part 4 impossible. |
 | **Bespoke eval runner, `vitest` for units** | The eval output is a scored table and a JSON report, not pass or fail. | Running the eval inside `vitest` conflates model measurement with regression testing. |
 
-Model selection is decided by the harness, not asserted up front. The starting
-candidate is Qwen3-8B at Q4_K_M, roughly 5 GB of weights, chosen to leave headroom
-for a long context on a 16 GB machine. Contenders benchmarked against it are
-listed in `docs/tasks.md` phase 7. Quantisation stays at Q4_K_M or above, because
-digits are where aggressive quantisation degrades first and every field that
-matters here is a number.
+Model selection was decided by the harness rather than asserted up front. Qwen3-8B
+at Q4_K_M is the shipped choice, benchmarked against Qwen3-4B at the same
+quantisation in the configuration table below. Quantisation stays at Q4_K_M or
+above, because digits are where aggressive quantisation degrades first and every
+field that matters here is a number.
 
 ## How do I run it?
 
-Node 22 and pnpm are the prerequisites.
+Every command below was run against a fresh clone of this repository. Node 22 and
+pnpm are the only prerequisites.
+
+**1. Install and check.** No model needed.
 
 ```bash
 pnpm install && pnpm check
 ```
 
-`pnpm check` runs three things in order: the guard that fails the build if a
+That runs three things in order: the guard that fails the build if a
 frontier-model SDK, hostname or API-key variable appears in the source or the
-dependency manifest, then the TypeScript strict typecheck, then the unit suite.
-None of it needs a model.
+dependency manifest, then the TypeScript strict typecheck, then 219 unit tests.
 
-To run the model, fetch the weights and check them against the manifest:
+**2. Run the evaluation against the baselines.** Still no model needed, and it
+takes under a second.
+
+```bash
+pnpm eval --extractor=regex
+```
+
+This prints the whole table: per case, per outcome, per class, and the release
+gate. The regex baseline fails the gate, which is the point of it.
+
+**3. Fetch the weights.** 4.7 GB. The file is not committed; the manifest that
+pins it by SHA-256 is.
 
 ```bash
 curl -L -o models/Qwen3-8B-Q4_K_M.gguf https://huggingface.co/Qwen/Qwen3-8B-GGUF/resolve/main/Qwen3-8B-Q4_K_M.gguf
 ```
 
 ```bash
-pnpm model:verify && pnpm model:smoke
+pnpm model:verify
 ```
 
-Then extract a recap:
+`model:verify` hashes what is on disk and compares it to the manifest. The hash
+there is the upstream Hugging Face LFS object id, so it can be checked against the
+source rather than only against whatever this machine downloaded. If a model is
+missing, the command prints the exact `curl` line to fetch it.
+
+**4. Extract a recap.**
 
 ```bash
-pnpm -s extract data/recap_01.txt --date 2026-08-11
+pnpm -s extract data/recap_03.txt --date 2026-08-24
 ```
 
-The deal object goes to stdout as JSON, and the questions back to the trader go
-to stderr, so the command can be piped. Use `pnpm -s` rather than `pnpm`, or the
-package manager's own banner lands in the JSON.
+That one is the incomplete recap, and it is the most informative to run first. It
+comes back with fourteen questions, including this pair:
+
+```
+quantity.value    ambiguous  The quantity is stated as a range or an approximation.
+                             What is the firm figure to contract on?
+pricing.differential.value
+                  absent     What is the differential? Signed, negative for a
+                             discount. The recap does not state one.
+```
+
+The deal object goes to stdout as JSON and the questions go to stderr, so the
+command can be piped. Use `pnpm -s`, or the package manager's banner lands in the
+JSON.
 
 `--date` is required and is not a formality. The extractor never reads the system
 clock, so a laycan written without a year has nothing to resolve against unless
 the caller supplies it.
 
-The weights are not committed. `models/manifest.json` is, and it pins the file by
-SHA-256. The hash there is the upstream Hugging Face LFS object id, so it can be
-checked against the source rather than only against whatever this machine
-downloaded.
+**5. Run the evaluation against the model.** About fourteen minutes on an M2 Pro,
+forty seconds a recap.
+
+```bash
+pnpm eval --extractor=model
+```
+
+Run from a clean checkout, that reproduced the committed report exactly: 86.6%
+accuracy, 100% correct abstention, zero invented values, gate passing. Only the
+latency moved, 41.0 s against 41.4 s at p50, which is why the JSON report keeps
+scores and timings in separate blocks. The scores block is meant to be diffable
+between runs; the timings block never can be.
 
 ### The MCP server
 
@@ -182,13 +258,11 @@ the same registered tools that `pnpm mcp` exposes.
 
 ## How do I run the evaluation?
 
-```bash
-pnpm eval --extractor=model
-```
+Step 2 and step 5 of the walkthrough above are the two you need. This section is
+the rest of the surface.
 
 `--extractor` selects what is being measured: `model`, or the `null` and `regex`
-baselines. The same flag runs the configuration comparison in phase 7. Other
-options:
+baselines.
 
 ```bash
 pnpm eval --extractor=model --report reports/run.json
@@ -200,9 +274,9 @@ pnpm eval:configs reports/perf-8b-all.json reports/perf-4b-all.json
 
 `eval:compare` prints the headline movement and every field that changed outcome
 in either direction, then says whether to keep the change. A change that lifts
-accuracy while adding an invented value is rejected, which is how the rejected
-runs in the table below were caught. `eval:configs` puts quality, latency and
-memory for several runs side by side.
+accuracy while adding an invented value is rejected, which is how the two rejected
+prompt versions below were caught. `eval:configs` puts quality, latency and memory
+for several runs side by side, which is the configuration table further down.
 
 The table goes to stdout, progress goes to stderr, and the command exits non-zero
 when the release gate fails, so it can gate a build directly.
@@ -528,25 +602,35 @@ A full transcript of all ten runs is committed at
 
 ## What are the known problems?
 
-Written from the design as it stands. Rewritten with observed failures once the
-eval runs.
+Each one names the eval case that exposes it, so a reviewer can reproduce it with
+`pnpm eval --only <case>` rather than take my word for it.
 
 - **Constrained decoding cannot make a model correct, only well-formed.** It kept
   every answer parseable across seven runs and 140 extractions with no repair
   retry, and it did nothing at all about the four invented values. Those needed
   deterministic checks in code.
-- **The support checks are pattern rules and will misfire.** A quantity legitimately
-  described as "about" would be refused, and a quotation named only by its
-  publication would be dropped. They fail toward over-refusal by construction,
-  which is the safe direction, but the over-refusal cost is real and currently
-  8.4%.
-- **Evidence checking catches invented values, not misattributed ones.** Case 8
-  takes the superseded quantity from a forwarded thread and quotes it accurately.
-  No amount of evidence checking catches that, and it is one of the three
-  remaining unflagged money-field errors.
-- **Threads are the hard part, and remain so.** At 77.5% they are eleven points
-  below the next worst class, and both of the model's remaining reasoning failures
-  are in them. Distractors turned out not to be hard: the model scores 90.0% there.
+- **The support checks are pattern rules and will misfire.** A quantity a trader
+  legitimately described as "about" would be refused, and a quotation named only
+  by its publication would be dropped. They fail toward over-refusal by
+  construction, which is the safe direction, but the cost is real: 8.4% of fields
+  that were stated come back refused.
+- **The extraction is not incremental.** Re-reading a thread re-extracts the whole
+  deal from scratch. A desk amending one field pays the full forty seconds again,
+  and nothing carries the earlier answer forward.
+- **Evidence checking catches invented values, not misattributed ones.**
+  `08-naphtha-thread-quantity-amended` takes the superseded quantity and tolerance
+  from a forwarded thread and quotes both accurately from the message. No amount
+  of verbatim checking catches that. It is two of the three remaining unflagged
+  money-field errors, and the amendment is written out in the correcting message
+  itself, so a reader that matches the nearest number to the field gets it wrong.
+- **A pricing basis can be read one word too shallow.**
+  `02-naphtha-cfr-rotterdam-thread` says "mean of the HIGH quotations" and the
+  extractor reports a plain mean. That is the third unflagged money-field error,
+  and the MCP demo prices it: USD 39,551 on a USD 15 M cargo, from one field.
+- **Threads are the hard part, and remain so.** At 77.5% the class is eleven
+  points below the next worst, and all three remaining reasoning failures are in
+  it. Distractors turned out not to be hard, at 90.0%: a second cargo mentioned in
+  passing is easier to ignore than a correction is to apply.
 - **Reproducibility is bounded.** It holds for a fixed model file and a fixed
   runtime version. Bit-identity across llama.cpp versions is not claimed.
 - **Twenty cases is small.** Several classes hold two cases, so a class
@@ -587,45 +671,69 @@ eval runs.
 
 ## What would I do next?
 
-Filled in properly once there are numbers. The current plan, in order:
+In order, with what each is worth on the numbers above.
 
-1. Attack the thread class directly. It is the only class below 85% and it holds
-   both remaining reasoning failures. The untested idea is an explicit amendment
-   pass over the thread before extraction, measured against the single pass.
-2. Cut the forty-second latency. Thirty-nine fields with an evidence span each is
-   most of the cost, and field-group splitting or a shorter evidence budget are
-   both worth a measured run.
-3. Split extraction into two tiers: the twenty mandatory fields always, the
-   nineteen conditional ones only when a deal is being drafted into a contract.
-   The measurement says that is a 35% latency cut and a small accuracy gain, and
-   the reason not to ship it today is `fx.rate`, which is conditionally mandatory
-   and would have to move into the first tier.
-4. Expand the eval set where the per-class breakdown is thin. Four classes hold two
-   or four cases, so a class percentage moves in large steps.
-5. Report the agent spend for building this, which is a Part 4 deliverable I
-   cannot read from inside the session.
+1. **Two-tier extraction.** The mandatory fields always, the conditional ones only
+   when a deal is being drafted into a contract. Measured at 35% off p50 latency
+   and 1.9 points of accuracy. The reason it is not shipped today is `fx.rate`,
+   which becomes mandatory the moment a deal is not in USD and would have to move
+   into the first tier.
+2. **Attack the thread class.** It is the only class below 85% and it holds all
+   three remaining unflagged money-field errors. The untested idea is an explicit
+   amendment pass that resolves the thread into a single current statement of each
+   field before extraction runs, measured against the single pass rather than
+   assumed better.
+3. **Grow the eval set to the point where a class percentage means something.**
+   Four classes hold two or four cases. Threads and mixed units deserve ten each,
+   because those are where the model is weakest and where a change is hardest to
+   judge from four data points.
+4. **Make extraction incremental.** A desk amending one field currently pays the
+   full forty seconds again. Re-extracting only the fields a new message touches is
+   both faster and safer, because it leaves the rest of the deal untouched rather
+   than re-deriving it.
+5. **Report the agent spend.** A Part 4 deliverable I cannot read from inside the
+   session.
+
+Two things I would not do. I would not reach for a bigger model first: the
+measured gap between the 8B and the 4B is 28 points, but the remaining failures
+are thread reasoning rather than field reading, and a two-tier design plus an
+amendment pass are cheaper experiments with a clearer mechanism. And I would not
+loosen the release gate to buy accuracy. The gate is the one number a trading desk
+would actually ask about.
 
 ## Repository layout
 
 ```
 data/    supplied recaps, field spec, domain primer, reference CSVs
-docs/    rules-and-constraints.md   the single source of truth
+         eval-cases/  the twenty committed cases, one directory each
+docs/    rules-and-constraints.md   the single source of truth for the rules
          code-style.md              conventions followed while writing the code
-         tasks.md                   the implementation checklist, kept current
-src/     domain/  pure. schema, dates, units, pricing, fx, normalise, questions
+         tasks.md                   the implementation record, phase by phase
+src/     domain/  pure. schema, dates, units, pricing, fx, valuation, questions
          io/      the filesystem edge, kept out of domain/ so it stays pure
          llm/     provider interface, two adapters, GBNF grammar builder
          extract/ orchestration, prompt, evidence and support checks
-         eval/    scorer, runner, report, compare, rescore, baselines
-         mcp/     the two-tool server (phase 8)
-reports/ every committed eval run, including the rejected ones
+         eval/    scorer, runner, report, compare, configs, rescore, baselines
+         mcp/     the two tools, the stdio server, the smoke test, the demo
+reports/ every committed run, including the two that were rejected
 models/  manifest.json pins the weights by hash; the .gguf files are not committed
 scripts/ guard-no-frontier-api.mjs, run by `pnpm check`
 ```
+
+## Where to read next
+
+`docs/rules-and-constraints.md` is the single source of truth for what the system
+must and must not do, including the six-bucket abstention taxonomy and the release
+gate. `docs/tasks.md` is the implementation record: what was done in what order,
+which hypotheses were rejected, and what is still open. `docs/code-style.md` is
+the conventions the code follows, and the one rule worth knowing before reading
+any of it is the layering rule at the top.
 
 ## Disclosure
 
 Coding agents were used to build this repository, which the brief permits and
 expects. They are not in the inference path: the built system calls a locally
-hosted open-weights model and nothing else. A guard script greps the source and
-the dependency tree for frontier-model SDKs and fails the build on a hit.
+hosted open-weights model and nothing else. `pnpm guard` scans the source and the
+dependency manifest for frontier-model SDKs, hostnames and API-key variables and
+fails the build on a hit. It also fails on any `console.*` in `src/`, because
+stdout carries MCP protocol frames.

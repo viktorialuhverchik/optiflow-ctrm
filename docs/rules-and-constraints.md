@@ -145,9 +145,9 @@ Fixed by the brief. When time is short, cut from the bottom.
 
 ## 9. Definition of done
 
-- [ ] `pnpm eval` runs the full suite offline and prints a table
-- [ ] Release gate in section 4 passes
-- [ ] README contains only numbers produced by a real run on this machine
-- [ ] No frontier-model API in the inference path, verified by the CI grep
-- [ ] MCP server answers the `recap_02` provisional-value question end to end
-- [ ] Limitations and next steps written down honestly
+- [x] `pnpm eval` runs the full suite offline and prints a table
+- [x] Release gate in section 4 passes: zero invented values on money-critical fields
+- [x] README contains only numbers produced by a real run on this machine. The one figure that could not be measured, the agent spend, is recorded as missing rather than estimated.
+- [x] No frontier-model API in the inference path, verified by `pnpm guard`, which also fails on any `console.*` in `src/`
+- [x] MCP server answers the `recap_02` provisional-value question end to end
+- [x] Limitations and next steps written down honestly, each named against the eval case that exposes it

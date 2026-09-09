@@ -244,8 +244,8 @@ No commented-out code. No `TODO` without an owner and a matching entry in
 
 Small and justified. Every dependency added gets a line in the README saying why.
 
-Runtime: `zod`, `decimal.js`, `node-llama-cpp`. Planned:
-`@modelcontextprotocol/sdk` (phase 8). Tooling: `typescript`, `tsx`, `vitest`.
+Runtime: `zod`, `decimal.js`, `node-llama-cpp`, `@modelcontextprotocol/sdk`.
+Tooling: `typescript`, `tsx`, `vitest`. That is the whole list.
 
 Argument parsing uses `node:util` `parseArgs` and the report table is thirty
 lines in `src/eval/table.ts`, so `commander` and `cli-table3` were dropped from
