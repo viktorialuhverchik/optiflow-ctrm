@@ -1,0 +1,28 @@
+{
+  "fields": {
+    "recap_date": "2026-10-14",
+    "buyer": "Anatolia Marine Fuels AS",
+    "seller": "Optiflow Trading DMCC",
+    "product.as_written": "Gasoline 95 RON unleaded",
+    "product.product_code": "GAS95",
+    "quantity.value": "15000",
+    "quantity.unit": "MT",
+    "quantity.tolerance_pct": "5",
+    "quantity.tolerance_option": "seller",
+    "delivery_term.incoterm": "CIF",
+    "delivery_term.place": "Rotterdam",
+    "delivery_window.from": "2026-10-26",
+    "delivery_window.to": "2026-10-30",
+    "pricing.quote_code": null,
+    "pricing.statistic": "mean",
+    "pricing.period": "B/L +0/+3",
+    "pricing.differential.value": "12.00",
+    "pricing.differential.unit": "USD/MT",
+    "currency": "USD",
+    "payment_terms.as_written": "net 30 days from B/L date against documents",
+    "quality_spec": "EN 228",
+    "law": "English law",
+    "arbitration": "LMAA arbitration London"
+  },
+  "notes": "The product resolves to GAS95 and the quotation resolves to nothing: price_quotes.csv holds six series and none of them is gasoline. The nearby CIF NWE ULSD series is the wrong answer, not a close one. Everything else on the deal is stated and must still come through."
+}

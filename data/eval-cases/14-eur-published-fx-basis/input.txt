@@ -1,0 +1,21 @@
+From: Ilya Bergmann <i.bergmann@optiflow-dmcc.example>
+To: Marta Vinkelis <m.vinkelis@nordlint.example>
+Date: Mon, 5 Oct 2026 08:02:31 +0400
+Subject: RECAP naphtha CIF Rotterdam / Nordlint (EUR)
+
+Recap of our call today 05.10.2026.
+
+Seller: Optiflow Trading DMCC
+Buyer: Nordlint Petrochemicals OU
+
+Product: naphtha full range, spec per our standard NAPH-FR-2 sheet
+Quantity: 26,000 MT +/- 5% in buyer's option
+Delivery: CIF Rotterdam
+Laycan: 26-30 October 2026
+
+Price: Mean of Argus CIF NWE Naphtha over B/L +0/+3, minus USD 5.30/MT
+Currency: EUR. Invoice converted from USD at the ECB EUR/USD reference rate published
+on the B/L date.
+
+Payment: net 30 days from B/L date against documents
+Law: English law, LMAA arbitration London

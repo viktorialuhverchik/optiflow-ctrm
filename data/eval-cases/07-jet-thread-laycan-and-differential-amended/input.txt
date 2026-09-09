@@ -1,0 +1,40 @@
+From: Marta Vinkelis <m.vinkelis@nordlint.example>
+To: Ilya Bergmann <i.bergmann@optiflow-dmcc.example>
+Date: Thu, 3 Sep 2026 10:12:44 +0200
+Subject: RE: RE: RECAP Jet A-1 FOB ARA / Nordlint
+
+Ilya,
+
+two corrections before you draft:
+- laycan is 14-18 October, not 10-14. Our vessel slipped.
+- the differential is plus USD 11.50/MT, not 10.50. Check your note from the call.
+
+Everything else as recapped.
+
+Marta
+
+> From: Ilya Bergmann <i.bergmann@optiflow-dmcc.example>
+> Date: Wed, 2 Sep 2026 08:30:11 +0400
+> Subject: RE: RECAP Jet A-1 FOB ARA / Nordlint
+>
+> Noted, thanks. Ops copied.
+>
+>> From: Ilya Bergmann <i.bergmann@optiflow-dmcc.example>
+>> Date: Tue, 1 Sep 2026 17:45:02 +0400
+>> Subject: RECAP Jet A-1 FOB ARA / Nordlint
+>>
+>> Marta, recap of our call today 01.09.2026.
+>>
+>> Seller: Optiflow Trading DMCC
+>> Buyer: Nordlint Petrochemicals OU
+>>
+>> Product: Jet A-1, DEF STAN 91-091
+>> Quantity: 18,000 MT +/- 5% in buyer's option
+>> Delivery: FOB Amsterdam
+>> Laycan: 10-14 October 2026
+>>
+>> Price: Mean of Platts FOB ARA Jet A-1 over B/L +0/+3, plus USD 10.50/MT
+>> Currency: USD
+>> Payment: 100% within 5 days from B/L date against scanned documents
+>> Inspection: Intertek at load port, costs 50/50
+>> Law: English law, LMAA arbitration London

@@ -1,0 +1,30 @@
+{
+  "fields": {
+    "recap_date": "2026-09-15",
+    "buyer": "Anatolia Marine Fuels AS",
+    "seller": "Optiflow Trading DMCC",
+    "product.as_written": "Fuel Oil 3.5% S 380 CST",
+    "product.product_code": "FO35",
+    "quantity.value": "20000",
+    "quantity.unit": "MT",
+    "quantity.tolerance_pct": "10",
+    "quantity.tolerance_option": "seller",
+    "delivery_term.incoterm": "FOB",
+    "delivery_term.place": "Novorossiysk",
+    "delivery_window.from": "2026-10-20",
+    "delivery_window.to": "2026-10-24",
+    "pricing.quote_code": "ARGUS_FOB_BLACK_SEA_FO_35",
+    "pricing.statistic": "mean",
+    "pricing.period": "B/L -1/+3",
+    "pricing.differential.value": "-9.40",
+    "pricing.differential.unit": "USD/MT",
+    "currency": "USD",
+    "payment_terms.as_written": "LC at sight, confirmed bank",
+    "quality_spec": "ISO 8217 RMG 380",
+    "inspection.inspector": "Saybolt",
+    "inspection.cost_split": "50/50",
+    "law": "English law",
+    "arbitration": "LMAA London"
+  },
+  "notes": "The tolerance is written \"10 pct\" rather than \"10%\", and the pricing period starts a day before the B/L date."
+}

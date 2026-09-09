@@ -1,0 +1,26 @@
+{
+  "fields": {
+    "recap_date": "2026-09-28",
+    "buyer": "Marlin Bunkers Pte Ltd",
+    "seller": "Optiflow Trading DMCC",
+    "product.as_written": "Jet A-1",
+    "product.product_code": "JETA1",
+    "quantity.value": "150000",
+    "quantity.unit": "BBL",
+    "quantity.tolerance_pct": "5",
+    "quantity.tolerance_option": "seller",
+    "delivery_term.incoterm": "FOB",
+    "delivery_term.place": "Amsterdam",
+    "delivery_window.from": "2026-10-20",
+    "delivery_window.to": "2026-10-24",
+    "pricing.quote_code": "PLATTS_FOB_ARA_JET",
+    "pricing.statistic": "mean",
+    "pricing.period": "B/L +0/+3",
+    "pricing.differential.value": "7.20",
+    "pricing.differential.unit": "USD/MT",
+    "currency": "USD",
+    "payment_terms.as_written": "net 30 days from B/L date against documents",
+    "quality_spec": "DEF STAN 91-091"
+  },
+  "notes": "Both units are recorded as written (B4). Converting the quantity to tonnes at extraction time, or silently restating the differential per barrel, is wrong even when the arithmetic is right: the conversion belongs at calculation time with the factor recorded."
+}

@@ -1,0 +1,29 @@
+{
+  "fields": {
+    "recap_date": "2026-09-08",
+    "buyer": "Marlin Bunkers Pte Ltd",
+    "seller": "Optiflow Trading DMCC",
+    "product.as_written": "VLSFO 0.5% S",
+    "product.product_code": "VLSFO",
+    "quantity.value": "12000",
+    "quantity.unit": "MT",
+    "quantity.tolerance_pct": "10",
+    "quantity.tolerance_option": "buyer",
+    "delivery_term.incoterm": "FOB",
+    "delivery_term.place": "Fujairah",
+    "delivery_window.from": "2026-10-12",
+    "delivery_window.to": "2026-10-16",
+    "pricing.quote_code": "PLATTS_FOB_FUJ_VLSFO",
+    "pricing.statistic": "mean",
+    "pricing.period": "B/L +0/+3",
+    "pricing.differential.value": "-6.25",
+    "pricing.differential.unit": "USD/MT",
+    "currency": "USD",
+    "payment_terms.as_written": "100% prepayment before loading",
+    "quality_spec": "ISO 8217 RMG 380 max 0.50% S",
+    "inspection.inspector": "Intertek",
+    "law": "English law",
+    "arbitration": "SIAC Singapore"
+  },
+  "notes": "Same product and port as the incomplete case 03, so an extractor that has learned the shape of one must still read this one on its own terms."
+}

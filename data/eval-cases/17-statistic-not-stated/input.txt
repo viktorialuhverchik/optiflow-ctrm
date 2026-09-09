@@ -1,0 +1,18 @@
+From: Ilya Bergmann <i.bergmann@optiflow-dmcc.example>
+To: Pieter Vandael <p.vandael@rhinemid.example>
+Date: Fri, 9 Oct 2026 10:15:00 +0400
+Subject: RECAP ULSD CIF Rotterdam / Rhine Midstream
+
+Recap of our call today 09.10.2026.
+
+Seller: Optiflow Trading DMCC
+Buyer: Rhine Midstream BV
+
+Product: Ultra Low Sulphur Diesel 10 ppm, EN 590
+Quantity: 20,000 MT +/- 5% in seller's option
+Delivery: CIF Rotterdam
+Laycan: 26-30 October 2026
+
+Price: Platts CIF NWE ULSD 10 ppm over B/L +0/+2, minus USD 4.20/MT
+Currency: USD
+Payment: net 30 days from B/L date against documents

@@ -1,0 +1,26 @@
+{
+  "fields": {
+    "recap_date": "2026-10-12",
+    "buyer": "Marlin Bunkers Pte Ltd",
+    "seller": "Optiflow Trading DMCC",
+    "product.as_written": "VLSFO 0.5% S",
+    "product.product_code": "VLSFO",
+    "quantity.value": "10000",
+    "quantity.unit": null,
+    "quantity.tolerance_pct": "10",
+    "quantity.tolerance_option": "seller",
+    "delivery_term.incoterm": "FOB",
+    "delivery_term.place": "Fujairah",
+    "delivery_window.from": null,
+    "delivery_window.to": null,
+    "pricing.quote_code": "PLATTS_FOB_FUJ_VLSFO",
+    "pricing.statistic": "mean",
+    "pricing.period": "B/L +0/+3",
+    "pricing.differential.value": "-5.00",
+    "pricing.differential.unit": "USD/MT",
+    "currency": "USD",
+    "payment_terms.as_written": "net 30 days from B/L date against documents",
+    "quality_spec": "ISO 8217 RMG 380 max 0.50% S"
+  },
+  "notes": "The message date is 12 October and the neighbouring VLSFO cases load in the second half of the month, so there is an obvious plausible window to invent. VLSFO is traded in tonnes almost without exception, so MT is an equally obvious guess for the unit. Neither is written down, so both are null plus a question. This is the only case in the set that refuses a quantity unit, and without it the release gate could never fire on that field."
+}

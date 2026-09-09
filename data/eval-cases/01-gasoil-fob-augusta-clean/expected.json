@@ -1,0 +1,32 @@
+{
+  "fields": {
+    "recap_date": "2026-08-11",
+    "buyer": "Helvig Energy AG",
+    "seller": "Optiflow Trading DMCC",
+    "product.as_written": "Gasoil 0.1% S",
+    "product.product_code": "GO01",
+    "quantity.value": "30000",
+    "quantity.unit": "MT",
+    "quantity.tolerance_pct": "10",
+    "quantity.tolerance_option": "seller",
+    "delivery_term.incoterm": "FOB",
+    "delivery_term.place": "Augusta, Italy",
+    "delivery_window.from": "2026-09-02",
+    "delivery_window.to": "2026-09-06",
+    "pricing.quote_code": "PLATTS_FOB_MED_ITALY_GASOIL_01",
+    "pricing.statistic": "mean",
+    "pricing.period": "B/L +0/+3",
+    "pricing.differential.value": "-12.50",
+    "pricing.differential.unit": "USD/MT",
+    "currency": "USD",
+    "payment_terms.as_written": "100% within 5 days from B/L date against scanned documents, late interest 12% p.a.",
+    "quality_spec": "EN 590 equivalent, spec as per attached",
+    "inspection.inspector": "SGS",
+    "inspection.cost_split": "50/50",
+    "demurrage.rate_per_day": "28000",
+    "demurrage.currency": "USD",
+    "law": "English law",
+    "arbitration": "LMAA arbitration London"
+  },
+  "notes": "The recap date is the date in the RECAP header, which matches the Telegram timestamp. product.as_written is the product identity only; the spec qualifier belongs in quality_spec."
+}

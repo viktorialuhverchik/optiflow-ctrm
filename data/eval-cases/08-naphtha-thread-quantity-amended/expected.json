@@ -1,0 +1,28 @@
+{
+  "fields": {
+    "recap_date": "2026-09-09",
+    "buyer": "Helvig Energy AG",
+    "seller": "Optiflow Trading DMCC",
+    "product.as_written": "naphtha full range",
+    "product.product_code": "NAPH",
+    "quantity.value": "30000",
+    "quantity.unit": "MT",
+    "quantity.tolerance_pct": "10",
+    "quantity.tolerance_option": "buyer",
+    "delivery_term.incoterm": "CIF",
+    "delivery_term.place": "Rotterdam",
+    "delivery_window.from": "2026-10-18",
+    "delivery_window.to": "2026-10-22",
+    "pricing.quote_code": "ARGUS_CIF_NWE_NAPHTHA",
+    "pricing.statistic": "mean",
+    "pricing.period": "B/L +0/+3",
+    "pricing.differential.value": "-4.10",
+    "pricing.differential.unit": "USD/MT",
+    "currency": "USD",
+    "payment_terms.as_written": "net 15 days from B/L date against documents",
+    "quality_spec": "spec per our standard NAPH-FR-2 sheet",
+    "law": "English law",
+    "arbitration": "LMAA arbitration London"
+  },
+  "notes": "Both superseded values, 25,000 and 5% in seller option, are written out in the amendment itself, so a reader that matches the nearest number to the field gets all three wrong."
+}

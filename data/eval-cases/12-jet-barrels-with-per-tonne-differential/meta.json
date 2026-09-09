@@ -1,0 +1,8 @@
+{
+  "id": "12-jet-barrels-with-per-tonne-differential",
+  "title": "Quantity in barrels, differential per tonne",
+  "class": "unit_mismatch",
+  "reference_date": "2026-09-28",
+  "source": "invented",
+  "notes": "The mixed-unit case the primer warns about, in its most common direction."
+}

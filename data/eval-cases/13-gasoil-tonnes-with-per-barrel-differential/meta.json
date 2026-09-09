@@ -1,0 +1,8 @@
+{
+  "id": "13-gasoil-tonnes-with-per-barrel-differential",
+  "title": "Quantity in tonnes, differential per barrel",
+  "class": "unit_mismatch",
+  "reference_date": "2026-10-01",
+  "source": "invented",
+  "notes": "The reverse direction, and the differential unit is written in prose rather than as a slash suffix."
+}

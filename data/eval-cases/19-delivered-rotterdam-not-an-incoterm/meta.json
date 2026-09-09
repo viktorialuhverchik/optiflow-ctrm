@@ -1,0 +1,8 @@
+{
+  "id": "19-delivered-rotterdam-not-an-incoterm",
+  "title": "Trader shorthand in place of an Incoterm",
+  "class": "must_abstain",
+  "reference_date": "2026-10-13",
+  "source": "invented",
+  "notes": "Rule B5 in one message: \"delivered Rotterdam\" could be DAP or CFR and the difference decides who carries risk and cost."
+}

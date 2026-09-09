@@ -1,0 +1,8 @@
+{
+  "id": "01-gasoil-fob-augusta-clean",
+  "title": "Clean FOB gasoil recap, Telegram",
+  "class": "clean",
+  "reference_date": "2026-08-11",
+  "source": "supplied",
+  "notes": "The supplied clean recap. Every mandatory field is stated, so nothing here should be null."
+}

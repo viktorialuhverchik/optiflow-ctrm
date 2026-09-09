@@ -1,0 +1,25 @@
+{
+  "fields": {
+    "recap_date": "2026-08-24",
+    "buyer": null,
+    "seller": "Gulfstar Bunkering LLC",
+    "product.as_written": "VLSFO 0.5",
+    "product.product_code": "VLSFO",
+    "quantity.value": null,
+    "quantity.unit": "MT",
+    "quantity.tolerance_pct": null,
+    "quantity.tolerance_option": null,
+    "delivery_term.incoterm": null,
+    "delivery_term.place": "Fujairah",
+    "delivery_window.from": "2026-10-16",
+    "delivery_window.to": "2026-10-31",
+    "pricing.quote_code": null,
+    "pricing.statistic": null,
+    "pricing.period": null,
+    "pricing.differential.value": null,
+    "pricing.differential.unit": null,
+    "currency": null,
+    "payment_terms.as_written": "payment as usual"
+  },
+  "notes": "buyer is \"us\", which is not a legal entity name, so it is null plus a question. Quantity is \"2-3 cargoes of about 5,000 mt each\", which is not a firm figure: the unit is stated but the value is not. \"delivered Fujairah\" is trader shorthand, not an Incoterm, so incoterm is null and the place is kept. \"second half of October\" resolves by the market convention recorded in the rules doc. Everything about the price is unstated, including the currency. \"payment as usual\" is recorded as written and flagged, because it is what the message says and it is not usable terms."
+}

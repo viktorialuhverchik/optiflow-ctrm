@@ -1,0 +1,30 @@
+From: Ilya Bergmann <i.bergmann@optiflow-dmcc.example>
+To: Ops <ops@optiflow-dmcc.example>
+Date: Thu, 10 Sep 2026 09:05:18 +0400
+Subject: RE: RECAP naphtha CIF Rotterdam / Helvig
+
+Team,
+
+Helvig came back: quantity is now 30,000 MT, not 25,000, and the tolerance moves to
++/- 10% in buyer's option (was 5% seller's). I have agreed. Nothing else changes.
+
+Ilya
+
+> From: Ilya Bergmann <i.bergmann@optiflow-dmcc.example>
+> Date: Wed, 9 Sep 2026 16:20:00 +0400
+> Subject: RECAP naphtha CIF Rotterdam / Helvig
+>
+> Recap of our call today 09.09.2026.
+>
+> Seller: Optiflow Trading DMCC
+> Buyer: Helvig Energy AG
+>
+> Product: naphtha full range, spec per our standard NAPH-FR-2 sheet
+> Quantity: 25,000 MT +/- 5% in seller's option
+> Delivery: CIF Rotterdam
+> Laycan: 18-22 October 2026
+>
+> Price: Mean of Argus CIF NWE Naphtha over B/L +0/+3, minus USD 4.10/MT
+> Currency: USD
+> Payment: net 15 days from B/L date against documents
+> Law: English law, LMAA arbitration London

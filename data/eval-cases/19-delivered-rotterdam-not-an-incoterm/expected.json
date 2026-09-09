@@ -1,0 +1,27 @@
+{
+  "fields": {
+    "recap_date": "2026-10-13",
+    "buyer": "Rhine Midstream BV",
+    "seller": "Optiflow Trading DMCC",
+    "product.as_written": "Ultra Low Sulphur Diesel 10 ppm",
+    "product.product_code": "ULSD10",
+    "quantity.value": "18000",
+    "quantity.unit": "MT",
+    "quantity.tolerance_pct": "5",
+    "quantity.tolerance_option": "buyer",
+    "delivery_term.incoterm": null,
+    "delivery_term.place": "Rotterdam",
+    "delivery_window.from": "2026-10-26",
+    "delivery_window.to": "2026-10-30",
+    "pricing.quote_code": "PLATTS_CIF_NWE_ULSD_10PPM",
+    "pricing.statistic": "mean",
+    "pricing.period": "B/L +0/+2",
+    "pricing.differential.value": "6.10",
+    "pricing.differential.unit": "USD/MT",
+    "currency": "USD",
+    "payment_terms.as_written": "net 30 days from B/L date against documents",
+    "delivery_term.as_written": "delivered Rotterdam, into buyer's tank",
+    "quality_spec": "EN 590"
+  },
+  "notes": "The place is kept and the Incoterm is null. The quotation is a CIF assessment, which makes CIF the tempting guess, and the pricing basis says nothing about who bears risk in delivery."
+}

@@ -1,0 +1,17 @@
+[Telegram, 2026-09-28 10:31]
+
+RECAP 28.09.2026
+
+Seller: Optiflow Trading DMCC
+Buyer: Marlin Bunkers Pte Ltd
+
+Product: Jet A-1, DEF STAN 91-091
+Quantity: 150,000 bbl +/- 5% in seller's option
+Delivery: FOB Amsterdam
+Laycan: 20-24 October 2026
+
+Price: Mean of Platts FOB ARA Jet A-1 over B/L +0/+3, plus USD 7.20/MT
+Currency: USD
+Payment: net 30 days from B/L date against documents
+
+note qty is in barrels and the price is per tonne, convert at 7.88 bbl/mt as usual

@@ -1,0 +1,8 @@
+{
+  "id": "15-aed-pegged-rate",
+  "title": "AED deal at the published peg",
+  "class": "non_usd",
+  "reference_date": "2026-10-07",
+  "source": "invented",
+  "notes": "The currency is AED and the recap states the peg explicitly. Optiflow is the buyer here rather than the seller."
+}

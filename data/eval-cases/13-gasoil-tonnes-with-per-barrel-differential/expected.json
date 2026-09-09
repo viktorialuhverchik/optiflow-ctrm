@@ -1,0 +1,28 @@
+{
+  "fields": {
+    "recap_date": "2026-10-01",
+    "buyer": "Anatolia Marine Fuels AS",
+    "seller": "Optiflow Trading DMCC",
+    "product.as_written": "Gasoil 0.1% S",
+    "product.product_code": "GO01",
+    "quantity.value": "24000",
+    "quantity.unit": "MT",
+    "quantity.tolerance_pct": "10",
+    "quantity.tolerance_option": "seller",
+    "delivery_term.incoterm": "FOB",
+    "delivery_term.place": "Augusta",
+    "delivery_window.from": "2026-10-22",
+    "delivery_window.to": "2026-10-26",
+    "pricing.quote_code": "PLATTS_FOB_MED_ITALY_GASOIL_01",
+    "pricing.statistic": "mean",
+    "pricing.period": "B/L +0/+3",
+    "pricing.differential.value": "-1.65",
+    "pricing.differential.unit": "USD/BBL",
+    "currency": "USD",
+    "payment_terms.as_written": "net 30 days from B/L date against documents",
+    "quality_spec": "EN 590 equivalent",
+    "law": "English law",
+    "arbitration": "LMAA arbitration London"
+  },
+  "notes": "\"per barrel\" written out is the same field as \"/bbl\". The quotation itself is per tonne, so the differential has to be converted before it is applied, which is what the pricing module does and the extractor does not."
+}

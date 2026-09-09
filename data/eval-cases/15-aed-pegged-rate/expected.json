@@ -1,0 +1,27 @@
+{
+  "fields": {
+    "recap_date": "2026-10-07",
+    "buyer": "Optiflow Trading DMCC",
+    "seller": "Gulfstar Bunkering LLC",
+    "product.as_written": "VLSFO 0.5% S",
+    "product.product_code": "VLSFO",
+    "quantity.value": "8000",
+    "quantity.unit": "MT",
+    "quantity.tolerance_pct": "10",
+    "quantity.tolerance_option": "seller",
+    "delivery_term.incoterm": "FOB",
+    "delivery_term.place": "Fujairah",
+    "delivery_window.from": "2026-10-24",
+    "delivery_window.to": "2026-10-28",
+    "pricing.quote_code": "PLATTS_FOB_FUJ_VLSFO",
+    "pricing.statistic": "mean",
+    "pricing.period": "B/L +0/+3",
+    "pricing.differential.value": "4.90",
+    "pricing.differential.unit": "USD/MT",
+    "currency": "AED",
+    "payment_terms.as_written": "net 30 days from B/L date against documents",
+    "fx.rate": "3.6725",
+    "quality_spec": "ISO 8217 RMG 380 max 0.50% S"
+  },
+  "notes": "Buyer and seller are the other way round from most cases in the set, which is a cheap way to catch an extractor that has learned to always answer Optiflow for seller. The rate is recorded as written; its direction comes from the USD/AED notation, not from an assumption (C4)."
+}

@@ -1,0 +1,28 @@
+{
+  "fields": {
+    "recap_date": "2026-09-16",
+    "buyer": "Helvig Energy AG",
+    "seller": "Optiflow Trading DMCC",
+    "product.as_written": "Gasoil 0.1% S",
+    "product.product_code": "GO01",
+    "quantity.value": "28000",
+    "quantity.unit": "MT",
+    "quantity.tolerance_pct": "10",
+    "quantity.tolerance_option": "seller",
+    "delivery_term.incoterm": "FOB",
+    "delivery_term.place": "Augusta",
+    "delivery_window.from": "2026-10-12",
+    "delivery_window.to": "2026-10-16",
+    "pricing.quote_code": "PLATTS_FOB_MED_ITALY_GASOIL_01",
+    "pricing.statistic": "mean",
+    "pricing.period": "B/L +0/+3",
+    "pricing.differential.value": "-11.00",
+    "pricing.differential.unit": "USD/MT",
+    "currency": "USD",
+    "payment_terms.as_written": "net 30 days from B/L date against documents",
+    "quality_spec": "EN 590 equivalent",
+    "law": "English law",
+    "arbitration": "LMAA arbitration London"
+  },
+  "notes": "A naive reading of \"amendments win\" takes 19-23 October, the newest laycan in the thread. The retraction is newer still, so the answer is the original 12-16 October."
+}

@@ -1,0 +1,15 @@
+[Telegram, 2026-10-07 13:20]
+
+RECAP 07.10.2026
+
+Seller: Gulfstar Bunkering LLC
+Buyer: Optiflow Trading DMCC
+
+Product: VLSFO 0.5% S, ISO 8217 RMG 380 max 0.50% S
+Quantity: 8,000 MT +/- 10% in seller's option
+Delivery: FOB Fujairah
+Laycan: 24-28 October 2026
+
+Price: Mean of Platts FOB Fujairah VLSFO 0.5% over B/L +0/+3, plus USD 4.90/MT
+Currency: AED, invoiced at the pegged rate USD/AED 3.6725
+Payment: net 30 days from B/L date against documents

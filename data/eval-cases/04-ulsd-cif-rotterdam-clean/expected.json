@@ -1,0 +1,33 @@
+{
+  "fields": {
+    "recap_date": "2026-09-01",
+    "buyer": "Rhine Midstream BV",
+    "seller": "Optiflow Trading DMCC",
+    "product.as_written": "Ultra Low Sulphur Diesel 10 ppm",
+    "product.product_code": "ULSD10",
+    "quantity.value": "25000",
+    "quantity.unit": "MT",
+    "quantity.tolerance_pct": "5",
+    "quantity.tolerance_option": "seller",
+    "delivery_term.incoterm": "CIF",
+    "delivery_term.place": "Rotterdam",
+    "delivery_window.from": "2026-10-05",
+    "delivery_window.to": "2026-10-09",
+    "pricing.quote_code": "PLATTS_CIF_NWE_ULSD_10PPM",
+    "pricing.statistic": "mean",
+    "pricing.period": "B/L +0/+2",
+    "pricing.differential.value": "3.75",
+    "pricing.differential.unit": "USD/MT",
+    "currency": "USD",
+    "payment_terms.as_written": "net 30 days from B/L date against documents, late interest 9% p.a.",
+    "quality_spec": "EN 590",
+    "inspection.inspector": "SGS",
+    "inspection.appointed_by": "buyer",
+    "inspection.cost_split": "50/50",
+    "demurrage.rate_per_day": "24500",
+    "demurrage.currency": "USD",
+    "law": "English law",
+    "arbitration": "LMAA arbitration London"
+  },
+  "notes": "A positive differential, so the sign must survive. The pricing window is B/L +0/+2, three days rather than the four in case 01."
+}

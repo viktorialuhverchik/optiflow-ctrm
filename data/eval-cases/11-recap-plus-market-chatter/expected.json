@@ -1,0 +1,28 @@
+{
+  "fields": {
+    "recap_date": "2026-09-24",
+    "buyer": "Rhine Midstream BV",
+    "seller": "Optiflow Trading DMCC",
+    "product.as_written": "Ultra Low Sulphur Diesel 10 ppm",
+    "product.product_code": "ULSD10",
+    "quantity.value": "22000",
+    "quantity.unit": "MT",
+    "quantity.tolerance_pct": "5",
+    "quantity.tolerance_option": "buyer",
+    "delivery_term.incoterm": "CIF",
+    "delivery_term.place": "Rotterdam",
+    "delivery_window.from": "2026-10-28",
+    "delivery_window.to": "2026-11-01",
+    "pricing.quote_code": "PLATTS_CIF_NWE_ULSD_10PPM",
+    "pricing.statistic": "mean",
+    "pricing.period": "B/L +0/+2",
+    "pricing.differential.value": "5.60",
+    "pricing.differential.unit": "USD/MT",
+    "currency": "USD",
+    "payment_terms.as_written": "net 30 days from B/L date against documents",
+    "quality_spec": "EN 590",
+    "demurrage.rate_per_day": null,
+    "demurrage.currency": null
+  },
+  "notes": "demurrage is pinned to null on purpose. USD 28,000 per day is stated in the message and belongs to a different cargo, so picking it up is an invented value on this deal even though the number is real. The laycan crosses a month boundary."
+}

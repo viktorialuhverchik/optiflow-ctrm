@@ -1,0 +1,28 @@
+{
+  "fields": {
+    "recap_date": "2026-10-08",
+    "buyer": "Helvig Energy AG",
+    "seller": "Optiflow Trading DMCC",
+    "product.as_written": "Gasoil 0.1% S",
+    "product.product_code": "GO01",
+    "quantity.value": "26000",
+    "quantity.unit": "MT",
+    "quantity.tolerance_pct": "10",
+    "quantity.tolerance_option": "seller",
+    "delivery_term.incoterm": "FOB",
+    "delivery_term.place": "Augusta",
+    "delivery_window.from": "2026-10-26",
+    "delivery_window.to": "2026-10-30",
+    "pricing.quote_code": "PLATTS_FOB_MED_ITALY_GASOIL_01",
+    "pricing.statistic": "mean",
+    "pricing.period": "B/L +0/+3",
+    "pricing.differential.value": null,
+    "pricing.differential.unit": null,
+    "currency": "USD",
+    "payment_terms.as_written": "net 30 days from B/L date against documents",
+    "quality_spec": "EN 590 equivalent",
+    "law": "English law",
+    "arbitration": "LMAA arbitration London"
+  },
+  "notes": "The differential unit is null as well as the value: the recap never says per tonne or per barrel either. Case 09 is the same product, port and publication with a differential of -11.00, so an extractor carrying context between cases would fill this one in wrongly."
+}

@@ -1,0 +1,29 @@
+{
+  "fields": {
+    "recap_date": "2026-09-01",
+    "buyer": "Nordlint Petrochemicals OU",
+    "seller": "Optiflow Trading DMCC",
+    "product.as_written": "Jet A-1",
+    "product.product_code": "JETA1",
+    "quantity.value": "18000",
+    "quantity.unit": "MT",
+    "quantity.tolerance_pct": "5",
+    "quantity.tolerance_option": "buyer",
+    "delivery_term.incoterm": "FOB",
+    "delivery_term.place": "Amsterdam",
+    "delivery_window.from": "2026-10-14",
+    "delivery_window.to": "2026-10-18",
+    "pricing.quote_code": "PLATTS_FOB_ARA_JET",
+    "pricing.statistic": "mean",
+    "pricing.period": "B/L +0/+3",
+    "pricing.differential.value": "11.50",
+    "pricing.differential.unit": "USD/MT",
+    "currency": "USD",
+    "payment_terms.as_written": "100% within 5 days from B/L date against scanned documents",
+    "quality_spec": "DEF STAN 91-091",
+    "inspection.inspector": "Intertek",
+    "law": "English law",
+    "arbitration": "LMAA arbitration London"
+  },
+  "notes": "recap_date is 01.09.2026, the date of the call, not the 3 September date on the newest message. The laycan is 14-18 October and the differential is +11.50, both from the correction. The superseded values 10-14 October and 10.50 appear in the same message and must not win."
+}

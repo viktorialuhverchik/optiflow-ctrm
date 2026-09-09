@@ -1,0 +1,8 @@
+{
+  "id": "14-eur-published-fx-basis",
+  "title": "EUR deal priced off a published FX fixing",
+  "class": "non_usd",
+  "reference_date": "2026-10-05",
+  "source": "invented",
+  "notes": "The currency is not USD and the FX basis names a published fixing rather than a number. There is no rate to extract."
+}
