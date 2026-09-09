@@ -2,6 +2,7 @@ node_modules/
 dist/
 .DS_Store
 *.log
-models/
+models/*.gguf
+models/*.part
 .eval-cache/
 reports/*.local.json

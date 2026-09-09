@@ -45,7 +45,13 @@ export type PricingPeriod =
  *   "5 days after B/L" -> 1..5
  */
 export function parseBlRelativePeriod(text: string): Result<PricingPeriod> {
-  const s = text.trim().toLowerCase().replace(/\s+/g, ' ');
+  // Tolerant of the connective as well as normalising it upstream: defence in
+  // depth, because an unparseable period means the deal cannot be priced at all.
+  const s = text
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .replace(/^(over|basis)\s+/, '');
 
   const twoSided = /^b\/?l\s*([+-]\s*\d+)\s*(?:\/|\.\.|to)\s*(?:b\/?l\s*)?([+-]\s*\d+)$/.exec(s);
   if (twoSided !== null) {

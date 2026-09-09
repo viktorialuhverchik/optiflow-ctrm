@@ -147,6 +147,13 @@ export async function extract(text: string, deps: ExtractDeps): Promise<Result<D
 No module-level side effects, no top-level `await`, no singletons. The eval harness
 runs many configurations in one process and a module-level cached model breaks it.
 
+**The model provider is not re-entrant.** It holds one context sequence, so one
+generation at a time. An MCP tool handler that calls back into the model while a
+generation is in flight wipes the sequence that generation is using, and both
+sides silently produce garbage. The provider throws on re-entry rather than
+allowing it; gather what a tool needs before generation starts, or load a second
+provider.
+
 Functions do one thing. A function that both parses and computes gets split, because
 the parse half needs a golden test and the compute half needs a property test.
 
@@ -211,7 +218,9 @@ Golden fixtures over inline literals for anything longer than a couple of lines.
 
 - **`stdout` is reserved.** In MCP stdio mode it carries protocol frames. All
   logging goes to `stderr`, on every path, including the CLI. One stray
-  `console.log` in shared code breaks the MCP server.
+  `console.log` in shared code breaks the MCP server, and it breaks it in a way
+  that looks like a client bug. `pnpm guard` fails the build on any `console.*`
+  in `src/`; entry points write with `process.stdout.write` deliberately.
 - Structured JSONL to stderr, one object per line, never interpolated prose.
 - Log the model call: prompt token count, completion token count, wall time,
   whether a repair retry fired. Those fields feed the performance table directly,
@@ -235,7 +244,7 @@ No commented-out code. No `TODO` without an owner and a matching entry in
 
 Small and justified. Every dependency added gets a line in the README saying why.
 
-Runtime: `zod`, `decimal.js`. Planned: `node-llama-cpp` (phase 4),
+Runtime: `zod`, `decimal.js`, `node-llama-cpp`. Planned:
 `@modelcontextprotocol/sdk` (phase 8). Tooling: `typescript`, `tsx`, `vitest`.
 
 Argument parsing uses `node:util` `parseArgs` and the report table is thirty

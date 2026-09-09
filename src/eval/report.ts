@@ -160,6 +160,7 @@ function renderByClass(byClass: Record<string, Summary>): string {
     { header: 'over-refusal', align: 'right' },
     { header: 'invented', align: 'right' },
     { header: 'silent err', align: 'right' },
+    { header: 'silent money', align: 'right' },
   ];
   const rows = Object.entries(byClass).map(([name, summary]) => [
     name,
@@ -169,6 +170,7 @@ function renderByClass(byClass: Record<string, Summary>): string {
     percent(summary.overRefusalRate),
     String(summary.confidentNonsense),
     percent(summary.silentErrorRate),
+    percent(summary.silentCriticalRate),
   ]);
   return renderTable(columns, rows);
 }
@@ -187,7 +189,8 @@ function renderHeadline(summary: Summary, timings: Report['timings']): string {
     ['over-refusal', percent(summary.overRefusalRate)],
     ['confident nonsense, mandatory', String(summary.confidentNonsense)],
     ['confident nonsense, all fields', String(summary.confidentNonsenseAll)],
-    ['SILENT ERROR RATE', percent(summary.silentErrorRate)],
+    ['silent error rate, any field', percent(summary.silentErrorRate)],
+    ['SILENT ERROR RATE, MONEY FIELDS', percent(summary.silentCriticalRate)],
     ['extractor failures', String(summary.failures)],
     ['p50 latency ms', String(Math.round(timings.p50Ms))],
     ['p95 latency ms', String(Math.round(timings.p95Ms))],

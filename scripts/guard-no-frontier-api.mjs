@@ -87,11 +87,37 @@ for (const file of walk('src')) {
   });
 }
 
+// --- check 3: stdout discipline -------------------------------------------
+// MCP runs on stdio and stdout carries protocol frames. One console.log in
+// shared code breaks the server, and it breaks it in a way that looks like a
+// client bug. See docs/code-style.md §12.
+const STDOUT_WRITERS = [/\bconsole\.(log|info|debug|dir|table)\s*\(/];
+const STDOUT_ALLOWED = new Set([
+  // Entry points whose stdout is their product, and which are never the MCP
+  // server. Each writes with process.stdout.write, not console.log.
+]);
+
+for (const file of walk('src')) {
+  if (STDOUT_ALLOWED.has(file)) continue;
+  const lines = readFileSync(file, 'utf8').split('\n');
+  lines.forEach((line, index) => {
+    for (const pattern of STDOUT_WRITERS) {
+      if (pattern.test(line)) {
+        violations.push(
+          `${file}:${index + 1} writes to stdout with console.* — stdout is reserved for MCP protocol frames`,
+        );
+      }
+    }
+  });
+}
+
 if (violations.length > 0) {
-  console.error('guard: frontier-model API found in the extraction path\n');
+  console.error('guard: failed\n');
   for (const v of violations) console.error(`  ${v}`);
-  console.error('\nSee docs/rules-and-constraints.md T1.');
+  console.error('\nSee docs/rules-and-constraints.md T1 and §7.');
   process.exit(1);
 }
 
-console.error(`guard: ok. ${scanned} source file(s) scanned, no frontier-model API found.`);
+console.error(
+  `guard: ok. ${scanned} source file(s) scanned. No frontier-model API, no console.* writing to stdout.`,
+);

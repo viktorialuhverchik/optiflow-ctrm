@@ -13,10 +13,21 @@
     "test:watch": "vitest",
     "guard": "node scripts/guard-no-frontier-api.mjs",
     "check": "pnpm guard && pnpm typecheck && pnpm test",
-    "eval": "tsx src/eval/cli.ts"
+    "eval": "tsx src/eval/cli.ts",
+    "model:smoke": "tsx src/llm/smoke.ts",
+    "model:verify": "tsx src/llm/verify.ts",
+    "grammar:check": "tsx src/llm/grammar-check.ts",
+    "extract": "tsx src/cli.ts",
+    "eval:compare": "tsx src/eval/compare.ts",
+    "eval:rescore": "tsx src/eval/rescore.ts",
+    "mcp": "tsx src/mcp/server.ts",
+    "mcp:smoke": "tsx src/mcp/smoke.ts",
+    "mcp:demo": "tsx src/mcp/demo.ts"
   },
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
     "decimal.js": "^10.4.3",
+    "node-llama-cpp": "^3.20.0",
     "zod": "^4.5.4"
   },
   "devDependencies": {
@@ -27,7 +38,8 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
-      "esbuild"
+      "esbuild",
+      "node-llama-cpp"
     ]
   }
 }

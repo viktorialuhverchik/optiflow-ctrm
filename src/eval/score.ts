@@ -51,6 +51,8 @@ export type CaseScore = {
   readonly fields: readonly FieldScore[];
   /** At least one wrong mandatory field that carried no question. */
   readonly silentError: boolean;
+  /** The same, restricted to money-critical fields. This is the one that invoices. */
+  readonly silentCriticalError: boolean;
   /** `confident_nonsense` on a money-critical field. The release gate. */
   readonly gateViolation: boolean;
   readonly questionCount: number;
@@ -148,6 +150,13 @@ export function scoreCase(
       !f.flagged,
   );
 
+  const silentCriticalError = fields.some(
+    (f) =>
+      f.moneyCritical &&
+      (f.outcome === 'wrong_value' || f.outcome === 'confident_nonsense') &&
+      !f.flagged,
+  );
+
   const gateViolation = fields.some(
     (f) => f.moneyCritical && f.outcome === 'confident_nonsense',
   );
@@ -157,6 +166,7 @@ export function scoreCase(
     caseClass: evalCase.meta.class,
     fields,
     silentError,
+    silentCriticalError,
     gateViolation,
     questionCount: questions.length,
     failure,
@@ -179,8 +189,19 @@ export type Summary = {
   readonly abstentionRate: number;
   /** wrong_abstention / mandatory fields whose expected value is non-null. */
   readonly overRefusalRate: number;
-  /** Cases with at least one unflagged wrong mandatory field. The headline. */
+  /**
+   * Cases with at least one unflagged wrong mandatory field.
+   *
+   * It saturates. With twenty mandatory fields a case and accuracy in the
+   * eighties, almost every case has one, so it separates a good extractor from a
+   * very good one poorly. It is kept because it is the honest whole-deal number.
+   */
   readonly silentErrorRate: number;
+  /**
+   * The same, restricted to the fields that reach an invoice. This is the
+   * number to steer by once the gate passes.
+   */
+  readonly silentCriticalRate: number;
   /** Invented values on mandatory fields. */
   readonly confidentNonsense: number;
   /**
@@ -224,6 +245,7 @@ export function summarise(scores: readonly CaseScore[]): Summary {
   }
 
   const silentErrors = scores.filter((s) => s.silentError).length;
+  const silentCritical = scores.filter((s) => s.silentCriticalError).length;
   const gateViolations = scores.filter((s) => s.gateViolation).length;
 
   return {
@@ -234,6 +256,7 @@ export function summarise(scores: readonly CaseScore[]): Summary {
     abstentionRate: ratio(counts.correct_abstention, expectedNullCount),
     overRefusalRate: ratio(counts.wrong_abstention, expectedValueCount),
     silentErrorRate: ratio(silentErrors, scores.length),
+    silentCriticalRate: ratio(silentCritical, scores.length),
     confidentNonsense: counts.confident_nonsense,
     confidentNonsenseAll,
     gateViolations,

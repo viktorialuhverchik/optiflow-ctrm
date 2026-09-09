@@ -1,0 +1,4574 @@
+{
+  "extractor": {
+    "name": "model",
+    "kind": "model",
+    "detail": {
+      "provider": "node-llama-cpp",
+      "model": "qwen3-8b-q4km",
+      "model_file": "models/Qwen3-8B-Q4_K_M.gguf",
+      "sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+      "quantisation": "Q4_K_M",
+      "runtime": "llama.cpp b10361",
+      "gpu": "Apple M2 Pro",
+      "context_size": 8192,
+      "temperature": 0,
+      "top_k": 1,
+      "top_p": 1,
+      "min_p": 0,
+      "seed": 1,
+      "repeat_penalty": "disabled",
+      "max_tokens": 3000,
+      "max_repair_attempts": 1,
+      "grammar_rules": 73,
+      "grammar": "gbnf, generated from the deal schema",
+      "prompt_version": "v4-refusal-rules"
+    }
+  },
+  "scores": {
+    "summary": {
+      "caseCount": 20,
+      "mandatoryFieldCount": 400,
+      "counts": {
+        "correct": 323,
+        "correct_abstention": 15,
+        "unflagged_abstention": 0,
+        "wrong_abstention": 32,
+        "wrong_value": 26,
+        "confident_nonsense": 4
+      },
+      "accuracy": 0.847769028871391,
+      "abstentionRate": 0.7894736842105263,
+      "overRefusalRate": 0.08398950131233596,
+      "silentErrorRate": 0.9,
+      "silentCriticalRate": 0.5,
+      "confidentNonsense": 4,
+      "confidentNonsenseAll": 4,
+      "gateViolations": 4,
+      "gatePassed": false,
+      "failures": 0
+    },
+    "byClass": {
+      "clean": {
+        "caseCount": 4,
+        "mandatoryFieldCount": 80,
+        "counts": {
+          "correct": 67,
+          "correct_abstention": 0,
+          "unflagged_abstention": 0,
+          "wrong_abstention": 8,
+          "wrong_value": 5,
+          "confident_nonsense": 0
+        },
+        "accuracy": 0.8375,
+        "abstentionRate": 0,
+        "overRefusalRate": 0.1,
+        "silentErrorRate": 1,
+        "silentCriticalRate": 1,
+        "confidentNonsense": 0,
+        "confidentNonsenseAll": 0,
+        "gateViolations": 0,
+        "gatePassed": true,
+        "failures": 0
+      },
+      "distractor": {
+        "caseCount": 2,
+        "mandatoryFieldCount": 40,
+        "counts": {
+          "correct": 35,
+          "correct_abstention": 0,
+          "unflagged_abstention": 0,
+          "wrong_abstention": 2,
+          "wrong_value": 3,
+          "confident_nonsense": 0
+        },
+        "accuracy": 0.875,
+        "abstentionRate": 0,
+        "overRefusalRate": 0.05,
+        "silentErrorRate": 1,
+        "silentCriticalRate": 0.5,
+        "confidentNonsense": 0,
+        "confidentNonsenseAll": 0,
+        "gateViolations": 0,
+        "gatePassed": true,
+        "failures": 0
+      },
+      "must_abstain": {
+        "caseCount": 6,
+        "mandatoryFieldCount": 120,
+        "counts": {
+          "correct": 88,
+          "correct_abstention": 15,
+          "unflagged_abstention": 0,
+          "wrong_abstention": 8,
+          "wrong_value": 5,
+          "confident_nonsense": 4
+        },
+        "accuracy": 0.8712871287128713,
+        "abstentionRate": 0.7894736842105263,
+        "overRefusalRate": 0.07920792079207921,
+        "silentErrorRate": 0.8333333333333334,
+        "silentCriticalRate": 0.3333333333333333,
+        "confidentNonsense": 4,
+        "confidentNonsenseAll": 4,
+        "gateViolations": 4,
+        "gatePassed": false,
+        "failures": 0
+      },
+      "non_usd": {
+        "caseCount": 2,
+        "mandatoryFieldCount": 40,
+        "counts": {
+          "correct": 37,
+          "correct_abstention": 0,
+          "unflagged_abstention": 0,
+          "wrong_abstention": 2,
+          "wrong_value": 1,
+          "confident_nonsense": 0
+        },
+        "accuracy": 0.925,
+        "abstentionRate": 0,
+        "overRefusalRate": 0.05,
+        "silentErrorRate": 0.5,
+        "silentCriticalRate": 0.5,
+        "confidentNonsense": 0,
+        "confidentNonsenseAll": 0,
+        "gateViolations": 0,
+        "gatePassed": true,
+        "failures": 0
+      },
+      "thread_amendment": {
+        "caseCount": 4,
+        "mandatoryFieldCount": 80,
+        "counts": {
+          "correct": 62,
+          "correct_abstention": 0,
+          "unflagged_abstention": 0,
+          "wrong_abstention": 8,
+          "wrong_value": 10,
+          "confident_nonsense": 0
+        },
+        "accuracy": 0.775,
+        "abstentionRate": 0,
+        "overRefusalRate": 0.1,
+        "silentErrorRate": 1,
+        "silentCriticalRate": 0.5,
+        "confidentNonsense": 0,
+        "confidentNonsenseAll": 0,
+        "gateViolations": 0,
+        "gatePassed": true,
+        "failures": 0
+      },
+      "unit_mismatch": {
+        "caseCount": 2,
+        "mandatoryFieldCount": 40,
+        "counts": {
+          "correct": 34,
+          "correct_abstention": 0,
+          "unflagged_abstention": 0,
+          "wrong_abstention": 4,
+          "wrong_value": 2,
+          "confident_nonsense": 0
+        },
+        "accuracy": 0.85,
+        "abstentionRate": 0,
+        "overRefusalRate": 0.1,
+        "silentErrorRate": 1,
+        "silentCriticalRate": 0,
+        "confidentNonsense": 0,
+        "confidentNonsenseAll": 0,
+        "gateViolations": 0,
+        "gatePassed": true,
+        "failures": 0
+      }
+    },
+    "cases": [
+      {
+        "caseId": "01-gasoil-fob-augusta-clean",
+        "caseClass": "clean",
+        "fields": [
+          {
+            "field": "recap_date",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-08-11",
+            "actual": "2026-08-11",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "buyer",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Helvig Energy AG",
+            "actual": "Helvig Energy AG",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "seller",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Optiflow Trading DMCC",
+            "actual": "Optiflow Trading DMCC",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Gasoil 0.1% S",
+            "actual": "Gasoil 0.1% S",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.product_code",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "GO01",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "quantity.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "30000",
+            "actual": "30000",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "MT",
+            "actual": "MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_pct",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "10",
+            "actual": "10",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_option",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "seller",
+            "actual": "seller",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_term.incoterm",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "FOB",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "delivery_term.place",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Augusta, Italy",
+            "actual": "Augusta, Italy",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.from",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-09-02",
+            "actual": "2026-09-02",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.to",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-09-06",
+            "actual": "2026-09-06",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.quote_code",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "PLATTS_FOB_MED_ITALY_GASOIL_01",
+            "actual": "PLATTS_FOB_MED_ITALY_GASOIL_01",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.statistic",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "mean",
+            "actual": "mean",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.period",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "B/L +0/+3",
+            "actual": "over B/L +0/+3",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "-12.50",
+            "actual": "-12.50",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD/MT",
+            "actual": "USD/MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "currency",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD",
+            "actual": "USD",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "payment_terms.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "100% within 5 days from B/L date against scanned documents, late interest 12% p.a.",
+            "actual": "100% within 5 days from B/L date against scanned documents, late interest 12% p.a.",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "arbitration",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "LMAA arbitration London",
+            "actual": "LMAA arbitration London",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "demurrage.currency",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "USD",
+            "actual": "USD",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "demurrage.rate_per_day",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "28000",
+            "actual": "28000",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "inspection.cost_split",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "50/50",
+            "actual": "50/50",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "inspection.inspector",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "SGS",
+            "actual": "SGS",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "law",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "English law",
+            "actual": "English law",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quality_spec",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "EN 590 equivalent, spec as per attached",
+            "actual": "EN 590 equivalent",
+            "outcome": "wrong_value",
+            "flagged": false
+          }
+        ],
+        "silentError": true,
+        "gateViolation": false,
+        "questionCount": 2,
+        "failure": null,
+        "silentCriticalError": true
+      },
+      {
+        "caseId": "02-naphtha-cfr-rotterdam-thread",
+        "caseClass": "thread_amendment",
+        "fields": [
+          {
+            "field": "recap_date",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-08-19",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "buyer",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Nordlint Petrochemicals OU",
+            "actual": "Nordlint Petrochemicals OU",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "seller",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Optiflow Trading DMCC",
+            "actual": "Optiflow Trading DMCC",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "naphtha full range",
+            "actual": "naphtha full range",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.product_code",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "NAPH",
+            "actual": "NAPH",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "220000",
+            "actual": "220000",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "BBL",
+            "actual": "BBL",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_pct",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "5",
+            "actual": "5",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_option",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "buyer",
+            "actual": "buyer",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_term.incoterm",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "CFR",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "delivery_term.place",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Rotterdam",
+            "actual": "Rotterdam",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.from",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-09-12",
+            "actual": "2026-09-12",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.to",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-09-16",
+            "actual": "2026-09-16",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.quote_code",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "ARGUS_CIF_NWE_NAPHTHA",
+            "actual": "ARGUS_CIF_NWE_NAPHTHA",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.statistic",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "mean_of_high",
+            "actual": "mean",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "pricing.period",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "B/L -1 / +3",
+            "actual": "B/L -1 / +3",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "8.00",
+            "actual": "8.00",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD/MT",
+            "actual": "USD/MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "currency",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "EUR",
+            "actual": "EUR",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "payment_terms.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "90 pct provisional against documents within 3 banking days from B/L date, balance within 5 days after final pricing is established",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "fx.rate",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "1.0852",
+            "actual": "1.0852",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "inspection.inspector",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "Saybolt",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": false
+          }
+        ],
+        "silentError": true,
+        "gateViolation": false,
+        "questionCount": 3,
+        "failure": null,
+        "silentCriticalError": true
+      },
+      {
+        "caseId": "03-vlsfo-fujairah-incomplete",
+        "caseClass": "must_abstain",
+        "fields": [
+          {
+            "field": "recap_date",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-08-24",
+            "actual": "2026-08-24",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "buyer",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": null,
+            "actual": null,
+            "outcome": "correct_abstention",
+            "flagged": true
+          },
+          {
+            "field": "seller",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Gulfstar Bunkering LLC",
+            "actual": "Gulfstar Bunkering LLC",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "VLSFO 0.5",
+            "actual": "VLSFO 0.5",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.product_code",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "VLSFO",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "quantity.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": null,
+            "actual": "5000",
+            "outcome": "confident_nonsense",
+            "flagged": true
+          },
+          {
+            "field": "quantity.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "MT",
+            "actual": "MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_pct",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": null,
+            "actual": null,
+            "outcome": "correct_abstention",
+            "flagged": true
+          },
+          {
+            "field": "quantity.tolerance_option",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": null,
+            "actual": null,
+            "outcome": "correct_abstention",
+            "flagged": true
+          },
+          {
+            "field": "delivery_term.incoterm",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": null,
+            "actual": null,
+            "outcome": "correct_abstention",
+            "flagged": true
+          },
+          {
+            "field": "delivery_term.place",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Fujairah",
+            "actual": "Fujairah",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.from",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-16",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "delivery_window.to",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-31",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "pricing.quote_code",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": null,
+            "actual": null,
+            "outcome": "correct_abstention",
+            "flagged": true
+          },
+          {
+            "field": "pricing.statistic",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": null,
+            "actual": null,
+            "outcome": "correct_abstention",
+            "flagged": true
+          },
+          {
+            "field": "pricing.period",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": null,
+            "actual": null,
+            "outcome": "correct_abstention",
+            "flagged": true
+          },
+          {
+            "field": "pricing.differential.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": null,
+            "actual": null,
+            "outcome": "correct_abstention",
+            "flagged": true
+          },
+          {
+            "field": "pricing.differential.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": null,
+            "actual": null,
+            "outcome": "correct_abstention",
+            "flagged": true
+          },
+          {
+            "field": "currency",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": null,
+            "actual": null,
+            "outcome": "correct_abstention",
+            "flagged": true
+          },
+          {
+            "field": "payment_terms.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "payment as usual",
+            "actual": "as usual",
+            "outcome": "wrong_value",
+            "flagged": false
+          }
+        ],
+        "silentError": true,
+        "gateViolation": true,
+        "questionCount": 14,
+        "failure": null,
+        "silentCriticalError": false
+      },
+      {
+        "caseId": "04-ulsd-cif-rotterdam-clean",
+        "caseClass": "clean",
+        "fields": [
+          {
+            "field": "recap_date",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-09-01",
+            "actual": "2026-09-01",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "buyer",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Rhine Midstream BV",
+            "actual": "Rhine Midstream BV",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "seller",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Optiflow Trading DMCC",
+            "actual": "Optiflow Trading DMCC",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Ultra Low Sulphur Diesel 10 ppm",
+            "actual": "Ultra Low Sulphur Diesel 10 ppm, EN 590",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "product.product_code",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "ULSD10",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "quantity.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "25000",
+            "actual": "25000",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "MT",
+            "actual": "MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_pct",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "5",
+            "actual": "5",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_option",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "seller",
+            "actual": "seller",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_term.incoterm",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "CIF",
+            "actual": "CIF",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_term.place",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Rotterdam",
+            "actual": "Rotterdam",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.from",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-05",
+            "actual": "2026-10-05",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.to",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-09",
+            "actual": "2026-10-09",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.quote_code",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "PLATTS_CIF_NWE_ULSD_10PPM",
+            "actual": "PLATTS_CIF_NWE_ULSD_10PPM",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.statistic",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "mean",
+            "actual": "mean",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.period",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "B/L +0/+2",
+            "actual": "over B/L +0/+2",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "3.75",
+            "actual": "3.75",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD/MT",
+            "actual": "USD/MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "currency",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD",
+            "actual": "USD",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "payment_terms.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "net 30 days from B/L date against documents, late interest 9% p.a.",
+            "actual": "net 30 days from B/L date against documents, late interest 9% p.a.",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "arbitration",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "LMAA arbitration London",
+            "actual": "LMAA arbitration London",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "demurrage.currency",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "USD",
+            "actual": "USD",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "demurrage.rate_per_day",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "24500",
+            "actual": "24500",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "inspection.appointed_by",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "buyer",
+            "actual": "buyer",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "inspection.cost_split",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "50/50",
+            "actual": "50/50",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "inspection.inspector",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "SGS",
+            "actual": "SGS",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "law",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "English law",
+            "actual": "English law",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quality_spec",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "EN 590",
+            "actual": "EN 590",
+            "outcome": "correct",
+            "flagged": false
+          }
+        ],
+        "silentError": true,
+        "gateViolation": false,
+        "questionCount": 1,
+        "failure": null,
+        "silentCriticalError": true
+      },
+      {
+        "caseId": "05-vlsfo-fob-fujairah-clean",
+        "caseClass": "clean",
+        "fields": [
+          {
+            "field": "recap_date",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-09-08",
+            "actual": "2026-09-08",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "buyer",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Marlin Bunkers Pte Ltd",
+            "actual": "Marlin Bunkers Pte Ltd",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "seller",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Optiflow Trading DMCC",
+            "actual": "Optiflow Trading DMCC",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "VLSFO 0.5% S",
+            "actual": "VLSFO 0.5% S",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.product_code",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "VLSFO",
+            "actual": "VLSFO",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "12000",
+            "actual": "12000",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "MT",
+            "actual": "MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_pct",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "10",
+            "actual": "10",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_option",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "buyer",
+            "actual": "buyer",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_term.incoterm",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "FOB",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "delivery_term.place",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Fujairah",
+            "actual": "Fujairah",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.from",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-12",
+            "actual": "2026-10-12",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.to",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-16",
+            "actual": "2026-10-16",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.quote_code",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "PLATTS_FOB_FUJ_VLSFO",
+            "actual": "PLATTS_FOB_FUJ_VLSFO",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.statistic",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "mean",
+            "actual": "mean",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.period",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "B/L +0/+3",
+            "actual": "over B/L +0/+3",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "-6.25",
+            "actual": "-6.25",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD/MT",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "currency",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD",
+            "actual": "USD",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "payment_terms.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "100% prepayment before loading",
+            "actual": "100% prepayment before loading",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "arbitration",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "SIAC Singapore",
+            "actual": "SIAC Singapore",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "inspection.inspector",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "Intertek",
+            "actual": "Intertek",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "law",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "English law",
+            "actual": "English law",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quality_spec",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "ISO 8217 RMG 380 max 0.50% S",
+            "actual": "ISO 8217 RMG 380 max 0.50% S",
+            "outcome": "correct",
+            "flagged": false
+          }
+        ],
+        "silentError": true,
+        "gateViolation": false,
+        "questionCount": 2,
+        "failure": null,
+        "silentCriticalError": true
+      },
+      {
+        "caseId": "06-fueloil-fob-black-sea-clean",
+        "caseClass": "clean",
+        "fields": [
+          {
+            "field": "recap_date",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-09-15",
+            "actual": "2026-09-15",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "buyer",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Anatolia Marine Fuels AS",
+            "actual": "Anatolia Marine Fuels AS",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "seller",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Optiflow Trading DMCC",
+            "actual": "Optiflow Trading DMCC",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Fuel Oil 3.5% S 380 CST",
+            "actual": "Fuel Oil 3.5% S 380 CST",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.product_code",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "FO35",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "quantity.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "20000",
+            "actual": "20000",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "MT",
+            "actual": "MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_pct",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "10",
+            "actual": "10",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_option",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "seller",
+            "actual": "seller",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_term.incoterm",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "FOB",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "delivery_term.place",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Novorossiysk",
+            "actual": "Novorossiysk",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.from",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-20",
+            "actual": "2026-10-20",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.to",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-24",
+            "actual": "2026-10-24",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.quote_code",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "ARGUS_FOB_BLACK_SEA_FO_35",
+            "actual": "ARGUS_FOB_BLACK_SEA_FO_35",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.statistic",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "mean",
+            "actual": "mean",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.period",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "B/L -1/+3",
+            "actual": "over B/L -1/+3",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "-9.40",
+            "actual": "-9.40",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD/MT",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "currency",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD",
+            "actual": "USD",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "payment_terms.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "LC at sight, confirmed bank",
+            "actual": "LC at sight, confirmed bank",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "arbitration",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "LMAA London",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": false
+          },
+          {
+            "field": "inspection.cost_split",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "50/50",
+            "actual": "50/50",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "inspection.inspector",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "Saybolt",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": false
+          },
+          {
+            "field": "law",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "English law",
+            "actual": "English law, LMAA London",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "quality_spec",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "ISO 8217 RMG 380",
+            "actual": "ISO 8217 RMG 380",
+            "outcome": "correct",
+            "flagged": false
+          }
+        ],
+        "silentError": true,
+        "gateViolation": false,
+        "questionCount": 3,
+        "failure": null,
+        "silentCriticalError": true
+      },
+      {
+        "caseId": "07-jet-thread-laycan-and-differential-amended",
+        "caseClass": "thread_amendment",
+        "fields": [
+          {
+            "field": "recap_date",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-09-01",
+            "actual": "2026-09-03",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "buyer",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Nordlint Petrochemicals OU",
+            "actual": "Nordlint Petrochemicals OU",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "seller",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Optiflow Trading DMCC",
+            "actual": "Optiflow Trading DMCC",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Jet A-1",
+            "actual": "Jet A-1, DEF STAN 91-091",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "product.product_code",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "JETA1",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "quantity.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "18000",
+            "actual": "18000",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "MT",
+            "actual": "MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_pct",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "5",
+            "actual": "5",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_option",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "buyer",
+            "actual": "buyer",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_term.incoterm",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "FOB",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "delivery_term.place",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Amsterdam",
+            "actual": "Amsterdam",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.from",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-14",
+            "actual": "2026-10-10",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.to",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-18",
+            "actual": "2026-10-14",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "pricing.quote_code",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "PLATTS_FOB_ARA_JET",
+            "actual": "PLATTS_FOB_ARA_JET",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.statistic",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "mean",
+            "actual": "mean",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.period",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "B/L +0/+3",
+            "actual": "B/L +0/+3",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "11.50",
+            "actual": "11.50",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD/MT",
+            "actual": "USD/MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "currency",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD",
+            "actual": "USD",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "payment_terms.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "100% within 5 days from B/L date against scanned documents",
+            "actual": "100% within 5 days from B/L date against scanned documents",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "arbitration",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "LMAA arbitration London",
+            "actual": "London",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "inspection.inspector",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "Intertek",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": false
+          },
+          {
+            "field": "law",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "English law",
+            "actual": "English law, LMAA arbitration London",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "quality_spec",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "DEF STAN 91-091",
+            "actual": "DEF STAN 91-091",
+            "outcome": "correct",
+            "flagged": false
+          }
+        ],
+        "silentError": true,
+        "gateViolation": false,
+        "questionCount": 2,
+        "failure": null,
+        "silentCriticalError": false
+      },
+      {
+        "caseId": "08-naphtha-thread-quantity-amended",
+        "caseClass": "thread_amendment",
+        "fields": [
+          {
+            "field": "recap_date",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-09-09",
+            "actual": "2026-09-10",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "buyer",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Helvig Energy AG",
+            "actual": "Helvig Energy AG",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "seller",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Optiflow Trading DMCC",
+            "actual": "Optiflow Trading DMCC",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "naphtha full range",
+            "actual": "naphtha full range",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.product_code",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "NAPH",
+            "actual": "NAPH",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "30000",
+            "actual": "25000",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "quantity.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "MT",
+            "actual": "MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_pct",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "10",
+            "actual": "5",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_option",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "buyer",
+            "actual": "seller",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "delivery_term.incoterm",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "CIF",
+            "actual": "CIF",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_term.place",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Rotterdam",
+            "actual": "Rotterdam",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.from",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-18",
+            "actual": "2026-10-18",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.to",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-22",
+            "actual": "2026-10-22",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.quote_code",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "ARGUS_CIF_NWE_NAPHTHA",
+            "actual": "ARGUS_CIF_NWE_NAPHTHA",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.statistic",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "mean",
+            "actual": "mean",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.period",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "B/L +0/+3",
+            "actual": "B/L +0/+3",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "-4.10",
+            "actual": "-4.10",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD/MT",
+            "actual": "USD/MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "currency",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD",
+            "actual": "USD",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "payment_terms.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "net 15 days from B/L date against documents",
+            "actual": "net 15 days from B/L date against documents",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "arbitration",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "LMAA arbitration London",
+            "actual": "LMAA arbitration London",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "law",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "English law",
+            "actual": "English law",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quality_spec",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "spec per our standard NAPH-FR-2 sheet",
+            "actual": "NAPH-FR-2",
+            "outcome": "wrong_value",
+            "flagged": false
+          }
+        ],
+        "silentError": true,
+        "gateViolation": false,
+        "questionCount": 0,
+        "failure": null,
+        "silentCriticalError": true
+      },
+      {
+        "caseId": "09-gasoil-thread-amendment-retracted",
+        "caseClass": "thread_amendment",
+        "fields": [
+          {
+            "field": "recap_date",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-09-16",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "buyer",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Helvig Energy AG",
+            "actual": "Helvig Energy AG",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "seller",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Optiflow Trading DMCC",
+            "actual": "Optiflow Trading DMCC",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Gasoil 0.1% S",
+            "actual": "Gasoil 0.1% S, EN 590 equivalent",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "product.product_code",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "GO01",
+            "actual": "GO01",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "28000",
+            "actual": "28000",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "MT",
+            "actual": "MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_pct",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "10",
+            "actual": "10",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_option",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "seller",
+            "actual": "seller",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_term.incoterm",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "FOB",
+            "actual": "FOB",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_term.place",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Augusta",
+            "actual": "Augusta",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.from",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-12",
+            "actual": "2026-10-12",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.to",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-16",
+            "actual": "2026-10-16",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.quote_code",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "PLATTS_FOB_MED_ITALY_GASOIL_01",
+            "actual": "PLATTS_FOB_MED_ITALY_GASOIL_01",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.statistic",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "mean",
+            "actual": "mean",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.period",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "B/L +0/+3",
+            "actual": "B/L +0/+3",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "-11.00",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "pricing.differential.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD/MT",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "currency",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD",
+            "actual": "USD",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "payment_terms.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "net 30 days from B/L date against documents",
+            "actual": "net 30 days from B/L date against documents",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "arbitration",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "LMAA arbitration London",
+            "actual": "LMAA arbitration London",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "law",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "English law",
+            "actual": "English law",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quality_spec",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "EN 590 equivalent",
+            "actual": "EN 590 equivalent",
+            "outcome": "correct",
+            "flagged": false
+          }
+        ],
+        "silentError": true,
+        "gateViolation": false,
+        "questionCount": 3,
+        "failure": null,
+        "silentCriticalError": false
+      },
+      {
+        "caseId": "10-two-deals-one-message",
+        "caseClass": "distractor",
+        "fields": [
+          {
+            "field": "recap_date",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-09-22",
+            "actual": "2026-09-22",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "buyer",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Helvig Energy AG",
+            "actual": "Helvig Energy AG",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "seller",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Optiflow Trading DMCC",
+            "actual": "Optiflow Trading DMCC",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Jet A-1",
+            "actual": "Jet A-1, DEF STAN 91-091",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "product.product_code",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "JETA1",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "quantity.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "15000",
+            "actual": "15000",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "MT",
+            "actual": "MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_pct",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "5",
+            "actual": "5",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_option",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "seller",
+            "actual": "seller",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_term.incoterm",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "FOB",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "delivery_term.place",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Amsterdam",
+            "actual": "Amsterdam",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.from",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-26",
+            "actual": "2026-10-26",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.to",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-30",
+            "actual": "2026-10-30",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.quote_code",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "PLATTS_FOB_ARA_JET",
+            "actual": "PLATTS_FOB_ARA_JET",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.statistic",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "mean",
+            "actual": "mean",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.period",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "B/L +0/+3",
+            "actual": "B/L +0/+3",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "-2.80",
+            "actual": "-2.80",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD/MT",
+            "actual": "USD/MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "currency",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD",
+            "actual": "USD",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "payment_terms.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "net 30 days from B/L date against documents",
+            "actual": "net 30 days from B/L date against documents",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quality_spec",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "DEF STAN 91-091",
+            "actual": "DEF STAN 91-091",
+            "outcome": "correct",
+            "flagged": false
+          }
+        ],
+        "silentError": true,
+        "gateViolation": false,
+        "questionCount": 2,
+        "failure": null,
+        "silentCriticalError": false
+      },
+      {
+        "caseId": "11-recap-plus-market-chatter",
+        "caseClass": "distractor",
+        "fields": [
+          {
+            "field": "recap_date",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-09-24",
+            "actual": "2026-09-24",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "buyer",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Rhine Midstream BV",
+            "actual": "Rhine Midstream BV",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "seller",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Optiflow Trading DMCC",
+            "actual": "Optiflow Trading DMCC",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Ultra Low Sulphur Diesel 10 ppm",
+            "actual": "Ultra Low Sulphur Diesel 10 ppm, EN 590",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "product.product_code",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "ULSD10",
+            "actual": "ULSD10",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "22000",
+            "actual": "22000",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "MT",
+            "actual": "MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_pct",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "5",
+            "actual": "5",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_option",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "buyer",
+            "actual": "buyer",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_term.incoterm",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "CIF",
+            "actual": "CIF",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_term.place",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Rotterdam",
+            "actual": "Rotterdam",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.from",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-28",
+            "actual": "2026-10-28",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.to",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-11-01",
+            "actual": "2026-11-01",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.quote_code",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "PLATTS_CIF_NWE_ULSD_10PPM",
+            "actual": "PLATTS_CIF_NWE_ULSD_10PPM",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.statistic",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "mean",
+            "actual": "mean",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.period",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "B/L +0/+2",
+            "actual": "over B/L +0/+2",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "5.60",
+            "actual": "5.60",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD/MT",
+            "actual": "USD/MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "currency",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD",
+            "actual": "USD",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "payment_terms.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "net 30 days from B/L date against documents",
+            "actual": "net 30 days from B/L date against documents",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "demurrage.currency",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": null,
+            "actual": null,
+            "outcome": "unflagged_abstention",
+            "flagged": false
+          },
+          {
+            "field": "demurrage.rate_per_day",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": null,
+            "actual": null,
+            "outcome": "unflagged_abstention",
+            "flagged": false
+          },
+          {
+            "field": "quality_spec",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "EN 590",
+            "actual": "EN 590",
+            "outcome": "correct",
+            "flagged": false
+          }
+        ],
+        "silentError": true,
+        "gateViolation": false,
+        "questionCount": 0,
+        "failure": null,
+        "silentCriticalError": true
+      },
+      {
+        "caseId": "12-jet-barrels-with-per-tonne-differential",
+        "caseClass": "unit_mismatch",
+        "fields": [
+          {
+            "field": "recap_date",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-09-28",
+            "actual": "2026-09-28",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "buyer",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Marlin Bunkers Pte Ltd",
+            "actual": "Marlin Bunkers Pte Ltd",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "seller",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Optiflow Trading DMCC",
+            "actual": "Optiflow Trading DMCC",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Jet A-1",
+            "actual": "Jet A-1, DEF STAN 91-091",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "product.product_code",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "JETA1",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "quantity.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "150000",
+            "actual": "150000",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "BBL",
+            "actual": "BBL",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_pct",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "5",
+            "actual": "5",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_option",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "seller",
+            "actual": "seller",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_term.incoterm",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "FOB",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "delivery_term.place",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Amsterdam",
+            "actual": "Amsterdam",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.from",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-20",
+            "actual": "2026-10-20",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.to",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-24",
+            "actual": "2026-10-24",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.quote_code",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "PLATTS_FOB_ARA_JET",
+            "actual": "PLATTS_FOB_ARA_JET",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.statistic",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "mean",
+            "actual": "mean",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.period",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "B/L +0/+3",
+            "actual": "B/L +0/+3",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "7.20",
+            "actual": "7.20",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD/MT",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "currency",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD",
+            "actual": "USD",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "payment_terms.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "net 30 days from B/L date against documents",
+            "actual": "net 30 days from B/L date against documents",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quality_spec",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "DEF STAN 91-091",
+            "actual": "DEF STAN 91-091",
+            "outcome": "correct",
+            "flagged": false
+          }
+        ],
+        "silentError": true,
+        "gateViolation": false,
+        "questionCount": 3,
+        "failure": null,
+        "silentCriticalError": false
+      },
+      {
+        "caseId": "13-gasoil-tonnes-with-per-barrel-differential",
+        "caseClass": "unit_mismatch",
+        "fields": [
+          {
+            "field": "recap_date",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-01",
+            "actual": "2026-10-01",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "buyer",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Anatolia Marine Fuels AS",
+            "actual": "Anatolia Marine Fuels AS",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "seller",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Optiflow Trading DMCC",
+            "actual": "Optiflow Trading DMCC",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Gasoil 0.1% S",
+            "actual": "Gasoil 0.1% S, EN 590 equivalent",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "product.product_code",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "GO01",
+            "actual": "GO01",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "24000",
+            "actual": "24000",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "MT",
+            "actual": "MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_pct",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "10",
+            "actual": "10",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_option",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "seller",
+            "actual": "seller",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_term.incoterm",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "FOB",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "delivery_term.place",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Augusta",
+            "actual": "Augusta",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.from",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-22",
+            "actual": "2026-10-22",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.to",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-26",
+            "actual": "2026-10-26",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.quote_code",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "PLATTS_FOB_MED_ITALY_GASOIL_01",
+            "actual": "PLATTS_FOB_MED_ITALY_GASOIL_01",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.statistic",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "mean",
+            "actual": "mean",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.period",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "B/L +0/+3",
+            "actual": "B/L +0/+3",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "-1.65",
+            "actual": "-1.65",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD/BBL",
+            "actual": "USD/BBL",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "currency",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD",
+            "actual": "USD",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "payment_terms.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "net 30 days from B/L date against documents",
+            "actual": "net 30 days from B/L date against documents",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "arbitration",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "LMAA arbitration London",
+            "actual": "LMAA arbitration London",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "law",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "English law",
+            "actual": "English law, LMAA arbitration London",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "quality_spec",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "EN 590 equivalent",
+            "actual": "EN 590 equivalent",
+            "outcome": "correct",
+            "flagged": false
+          }
+        ],
+        "silentError": true,
+        "gateViolation": false,
+        "questionCount": 1,
+        "failure": null,
+        "silentCriticalError": false
+      },
+      {
+        "caseId": "14-eur-published-fx-basis",
+        "caseClass": "non_usd",
+        "fields": [
+          {
+            "field": "recap_date",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-05",
+            "actual": "2026-10-05",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "buyer",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Nordlint Petrochemicals OU",
+            "actual": "Nordlint Petrochemicals OU",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "seller",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Optiflow Trading DMCC",
+            "actual": "Optiflow Trading DMCC",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "naphtha full range",
+            "actual": "naphtha full range",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.product_code",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "NAPH",
+            "actual": "NAPH",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "26000",
+            "actual": "26000",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "MT",
+            "actual": "MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_pct",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "5",
+            "actual": "5",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_option",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "buyer",
+            "actual": "buyer",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_term.incoterm",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "CIF",
+            "actual": "CIF",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_term.place",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Rotterdam",
+            "actual": "Rotterdam",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.from",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-26",
+            "actual": "2026-10-26",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.to",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-30",
+            "actual": "2026-10-30",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.quote_code",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "ARGUS_CIF_NWE_NAPHTHA",
+            "actual": "ARGUS_CIF_NWE_NAPHTHA",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.statistic",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "mean",
+            "actual": "mean",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.period",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "B/L +0/+3",
+            "actual": "B/L +0/+3",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "-5.30",
+            "actual": "-5.30",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD/MT",
+            "actual": "USD/MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "currency",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "EUR",
+            "actual": "EUR",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "payment_terms.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "net 30 days from B/L date against documents",
+            "actual": "net 30 days from B/L date against documents",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "arbitration",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "LMAA arbitration London",
+            "actual": "LMAA arbitration London",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "fx.rate",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": null,
+            "actual": null,
+            "outcome": "correct_abstention",
+            "flagged": true
+          },
+          {
+            "field": "law",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "English law",
+            "actual": "English law",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quality_spec",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "spec per our standard NAPH-FR-2 sheet",
+            "actual": "NAPH-FR-2",
+            "outcome": "wrong_value",
+            "flagged": false
+          }
+        ],
+        "silentError": false,
+        "gateViolation": false,
+        "questionCount": 1,
+        "failure": null,
+        "silentCriticalError": false
+      },
+      {
+        "caseId": "15-aed-pegged-rate",
+        "caseClass": "non_usd",
+        "fields": [
+          {
+            "field": "recap_date",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-07",
+            "actual": "2026-10-07",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "buyer",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Optiflow Trading DMCC",
+            "actual": "Optiflow Trading DMCC",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "seller",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Gulfstar Bunkering LLC",
+            "actual": "Gulfstar Bunkering LLC",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "VLSFO 0.5% S",
+            "actual": "VLSFO 0.5% S",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.product_code",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "VLSFO",
+            "actual": "VLSFO",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "8000",
+            "actual": "8000",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "MT",
+            "actual": "MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_pct",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "10",
+            "actual": "10",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_option",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "seller",
+            "actual": "seller",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_term.incoterm",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "FOB",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "delivery_term.place",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Fujairah",
+            "actual": "Fujairah",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.from",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-24",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "delivery_window.to",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-28",
+            "actual": "2026-10-28",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.quote_code",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "PLATTS_FOB_FUJ_VLSFO",
+            "actual": "PLATTS_FOB_FUJ_VLSFO",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.statistic",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "mean",
+            "actual": "mean",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.period",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "B/L +0/+3",
+            "actual": "over B/L +0/+3",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "4.90",
+            "actual": "4.90",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD/MT",
+            "actual": "USD/MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "currency",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "AED",
+            "actual": "AED",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "payment_terms.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "net 30 days from B/L date against documents",
+            "actual": "net 30 days from B/L date against documents",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "fx.rate",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "3.6725",
+            "actual": "3.6725",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quality_spec",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "ISO 8217 RMG 380 max 0.50% S",
+            "actual": "ISO 8217 RMG 380 max 0.50% S",
+            "outcome": "correct",
+            "flagged": false
+          }
+        ],
+        "silentError": true,
+        "gateViolation": false,
+        "questionCount": 2,
+        "failure": null,
+        "silentCriticalError": true
+      },
+      {
+        "caseId": "16-differential-to-be-agreed",
+        "caseClass": "must_abstain",
+        "fields": [
+          {
+            "field": "recap_date",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-08",
+            "actual": "2026-10-08",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "buyer",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Helvig Energy AG",
+            "actual": "Helvig Energy AG",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "seller",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Optiflow Trading DMCC",
+            "actual": "Optiflow Trading DMCC",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Gasoil 0.1% S",
+            "actual": "Gasoil 0.1% S, EN 590 equivalent",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "product.product_code",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "GO01",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "quantity.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "26000",
+            "actual": "26000",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "MT",
+            "actual": "MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_pct",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "10",
+            "actual": "10",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_option",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "seller",
+            "actual": "seller",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_term.incoterm",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "FOB",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "delivery_term.place",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Augusta",
+            "actual": "Augusta",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.from",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-26",
+            "actual": "2026-10-26",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.to",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-30",
+            "actual": "2026-10-30",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.quote_code",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "PLATTS_FOB_MED_ITALY_GASOIL_01",
+            "actual": "PLATTS_FOB_MED_ITALY_GASOIL_01",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.statistic",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "mean",
+            "actual": "mean",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.period",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "B/L +0/+3",
+            "actual": "over B/L +0/+3",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": null,
+            "actual": null,
+            "outcome": "correct_abstention",
+            "flagged": true
+          },
+          {
+            "field": "pricing.differential.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": null,
+            "actual": null,
+            "outcome": "correct_abstention",
+            "flagged": true
+          },
+          {
+            "field": "currency",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD",
+            "actual": "USD",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "payment_terms.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "net 30 days from B/L date against documents",
+            "actual": "net 30 days from B/L date against documents",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "arbitration",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "LMAA arbitration London",
+            "actual": "LMAA arbitration London",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "law",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "English law",
+            "actual": "English law",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quality_spec",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "EN 590 equivalent",
+            "actual": "EN 590 equivalent",
+            "outcome": "correct",
+            "flagged": false
+          }
+        ],
+        "silentError": true,
+        "gateViolation": false,
+        "questionCount": 4,
+        "failure": null,
+        "silentCriticalError": true
+      },
+      {
+        "caseId": "17-statistic-not-stated",
+        "caseClass": "must_abstain",
+        "fields": [
+          {
+            "field": "recap_date",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-09",
+            "actual": "2026-10-09",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "buyer",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Rhine Midstream BV",
+            "actual": "Rhine Midstream BV",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "seller",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Optiflow Trading DMCC",
+            "actual": "Optiflow Trading DMCC",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Ultra Low Sulphur Diesel 10 ppm",
+            "actual": "Ultra Low Sulphur Diesel 10 ppm, EN 590",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "product.product_code",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "ULSD10",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "quantity.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "20000",
+            "actual": "20000",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "MT",
+            "actual": "MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_pct",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "5",
+            "actual": "5",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_option",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "seller",
+            "actual": "seller",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_term.incoterm",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "CIF",
+            "actual": "CIF",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_term.place",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Rotterdam",
+            "actual": "Rotterdam",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.from",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-26",
+            "actual": "2026-10-26",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.to",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-30",
+            "actual": "2026-10-30",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.quote_code",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "PLATTS_CIF_NWE_ULSD_10PPM",
+            "actual": "PLATTS_CIF_NWE_ULSD_10PPM",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.statistic",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": null,
+            "actual": "mean",
+            "outcome": "confident_nonsense",
+            "flagged": true
+          },
+          {
+            "field": "pricing.period",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "B/L +0/+2",
+            "actual": "B/L +0/+2",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "-4.20",
+            "actual": "-4.20",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD/MT",
+            "actual": "USD/MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "currency",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD",
+            "actual": "USD",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "payment_terms.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "net 30 days from B/L date against documents",
+            "actual": "net 30 days from B/L date against documents",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quality_spec",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "EN 590",
+            "actual": "EN 590",
+            "outcome": "correct",
+            "flagged": false
+          }
+        ],
+        "silentError": true,
+        "gateViolation": true,
+        "questionCount": 2,
+        "failure": null,
+        "silentCriticalError": false
+      },
+      {
+        "caseId": "18-laycan-tba",
+        "caseClass": "must_abstain",
+        "fields": [
+          {
+            "field": "recap_date",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-12",
+            "actual": "2026-10-12",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "buyer",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Marlin Bunkers Pte Ltd",
+            "actual": "Marlin Bunkers Pte Ltd",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "seller",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Optiflow Trading DMCC",
+            "actual": "Optiflow Trading DMCC",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "VLSFO 0.5% S",
+            "actual": "VLSFO 0.5% S",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.product_code",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "VLSFO",
+            "actual": "VLSFO",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "10000",
+            "actual": "10000",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": null,
+            "actual": "MT",
+            "outcome": "confident_nonsense",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_pct",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "10",
+            "actual": "10",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_option",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "seller",
+            "actual": "seller",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_term.incoterm",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "FOB",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "delivery_term.place",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Fujairah",
+            "actual": "Fujairah",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.from",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": null,
+            "actual": null,
+            "outcome": "correct_abstention",
+            "flagged": true
+          },
+          {
+            "field": "delivery_window.to",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": null,
+            "actual": null,
+            "outcome": "correct_abstention",
+            "flagged": true
+          },
+          {
+            "field": "pricing.quote_code",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "PLATTS_FOB_FUJ_VLSFO",
+            "actual": "PLATTS_FOB_FUJ_VLSFO",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.statistic",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "mean",
+            "actual": "mean",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.period",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "B/L +0/+3",
+            "actual": "B/L +0/+3",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "-5.00",
+            "actual": "-5.00",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD/MT",
+            "actual": "USD/MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "currency",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD",
+            "actual": "USD",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "payment_terms.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "net 30 days from B/L date against documents",
+            "actual": "net 30 days from B/L date against documents",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quality_spec",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "ISO 8217 RMG 380 max 0.50% S",
+            "actual": "ISO 8217 RMG 380 max 0.50% S",
+            "outcome": "correct",
+            "flagged": false
+          }
+        ],
+        "silentError": true,
+        "gateViolation": true,
+        "questionCount": 3,
+        "failure": null,
+        "silentCriticalError": true
+      },
+      {
+        "caseId": "19-delivered-rotterdam-not-an-incoterm",
+        "caseClass": "must_abstain",
+        "fields": [
+          {
+            "field": "recap_date",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-13",
+            "actual": "2026-10-13",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "buyer",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Rhine Midstream BV",
+            "actual": "Rhine Midstream BV",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "seller",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Optiflow Trading DMCC",
+            "actual": "Optiflow Trading DMCC",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Ultra Low Sulphur Diesel 10 ppm",
+            "actual": "Ultra Low Sulphur Diesel 10 ppm, EN 590",
+            "outcome": "wrong_value",
+            "flagged": false
+          },
+          {
+            "field": "product.product_code",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "ULSD10",
+            "actual": null,
+            "outcome": "wrong_abstention",
+            "flagged": true
+          },
+          {
+            "field": "quantity.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "18000",
+            "actual": "18000",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "MT",
+            "actual": "MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_pct",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "5",
+            "actual": "5",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_option",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "buyer",
+            "actual": "buyer",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_term.incoterm",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": null,
+            "actual": null,
+            "outcome": "correct_abstention",
+            "flagged": true
+          },
+          {
+            "field": "delivery_term.place",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Rotterdam",
+            "actual": "Rotterdam",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.from",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-26",
+            "actual": "2026-10-26",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.to",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-30",
+            "actual": "2026-10-30",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.quote_code",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "PLATTS_CIF_NWE_ULSD_10PPM",
+            "actual": "PLATTS_CIF_NWE_ULSD_10PPM",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.statistic",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "mean",
+            "actual": "mean",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.period",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "B/L +0/+2",
+            "actual": "B/L +0/+2",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "6.10",
+            "actual": "6.10",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD/MT",
+            "actual": "USD/MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "currency",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD",
+            "actual": "USD",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "payment_terms.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "net 30 days from B/L date against documents",
+            "actual": "net 30 days from B/L date against documents",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_term.as_written",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "delivered Rotterdam, into buyer's tank",
+            "actual": "delivered Rotterdam, into buyer's tank",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quality_spec",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "EN 590",
+            "actual": "EN 590",
+            "outcome": "correct",
+            "flagged": false
+          }
+        ],
+        "silentError": true,
+        "gateViolation": false,
+        "questionCount": 2,
+        "failure": null,
+        "silentCriticalError": false
+      },
+      {
+        "caseId": "20-quotation-we-do-not-hold",
+        "caseClass": "must_abstain",
+        "fields": [
+          {
+            "field": "recap_date",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-14",
+            "actual": "2026-10-14",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "buyer",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Anatolia Marine Fuels AS",
+            "actual": "Anatolia Marine Fuels AS",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "seller",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Optiflow Trading DMCC",
+            "actual": "Optiflow Trading DMCC",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Gasoline 95 RON unleaded",
+            "actual": "Gasoline 95 RON unleaded",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "product.product_code",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "GAS95",
+            "actual": "GAS95",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "15000",
+            "actual": "15000",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "MT",
+            "actual": "MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_pct",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "5",
+            "actual": "5",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quantity.tolerance_option",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "seller",
+            "actual": "seller",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_term.incoterm",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "CIF",
+            "actual": "CIF",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_term.place",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "Rotterdam",
+            "actual": "Rotterdam",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.from",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-26",
+            "actual": "2026-10-26",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "delivery_window.to",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "2026-10-30",
+            "actual": "2026-10-30",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.quote_code",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": null,
+            "actual": "PLATTS_CIF_NWE_ULSD_10PPM",
+            "outcome": "confident_nonsense",
+            "flagged": true
+          },
+          {
+            "field": "pricing.statistic",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "mean",
+            "actual": "mean",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.period",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "B/L +0/+3",
+            "actual": "B/L +0/+3",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.value",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "12.00",
+            "actual": "12.00",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "pricing.differential.unit",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD/MT",
+            "actual": "USD/MT",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "currency",
+            "mandatory": true,
+            "moneyCritical": true,
+            "expected": "USD",
+            "actual": "USD",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "payment_terms.as_written",
+            "mandatory": true,
+            "moneyCritical": false,
+            "expected": "net 30 days from B/L date against documents",
+            "actual": "net 30 days from B/L date against documents",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "arbitration",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "LMAA arbitration London",
+            "actual": "LMAA arbitration London",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "law",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "English law",
+            "actual": "English law",
+            "outcome": "correct",
+            "flagged": false
+          },
+          {
+            "field": "quality_spec",
+            "mandatory": false,
+            "moneyCritical": false,
+            "expected": "EN 228",
+            "actual": "EN 228",
+            "outcome": "correct",
+            "flagged": false
+          }
+        ],
+        "silentError": false,
+        "gateViolation": true,
+        "questionCount": 1,
+        "failure": null,
+        "silentCriticalError": false
+      }
+    ]
+  },
+  "timings": {
+    "totalMs": 848509.5833749998,
+    "p50Ms": 41121.229875000005,
+    "p95Ms": 48328.804000000004,
+    "perCaseMs": {
+      "01-gasoil-fob-augusta-clean": 42098.563917,
+      "02-naphtha-cfr-rotterdam-thread": 48328.804000000004,
+      "03-vlsfo-fujairah-incomplete": 32375.045667000013,
+      "04-ulsd-cif-rotterdam-clean": 41121.229875000005,
+      "05-vlsfo-fob-fujairah-clean": 40828.447583,
+      "06-fueloil-fob-black-sea-clean": 38685.93599999999,
+      "07-jet-thread-laycan-and-differential-amended": 47274.29541600001,
+      "08-naphtha-thread-quantity-amended": 46450.176749999984,
+      "09-gasoil-thread-amendment-retracted": 48771.906625,
+      "10-two-deals-one-message": 40147.923167,
+      "11-recap-plus-market-chatter": 46304.17320900003,
+      "12-jet-barrels-with-per-tonne-differential": 39298.75054099999,
+      "13-gasoil-tonnes-with-per-barrel-differential": 42448.569708999945,
+      "14-eur-published-fx-basis": 38381.088875000016,
+      "15-aed-pegged-rate": 39535.43995799997,
+      "16-differential-to-be-agreed": 38044.58291599993,
+      "17-statistic-not-stated": 40860.73970799998,
+      "18-laycan-tba": 44203.60712499998,
+      "19-delivered-rotterdam-not-an-incoterm": 45021.81224999996,
+      "20-quotation-we-do-not-hold": 48328.49008400005
+    }
+  }
+}

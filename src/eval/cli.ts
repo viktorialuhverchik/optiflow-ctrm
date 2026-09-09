@@ -10,6 +10,10 @@
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { parseArgs } from 'node:util';
+import { createModelExtractor } from '../extract/extractor.js';
+import { findModel } from '../llm/manifest.js';
+import { NodeLlamaProvider } from '../llm/node-llama.js';
+import { loadManifest, requireModelFile } from '../io/model-files.js';
 import { createNullExtractor } from './extractors/null-extractor.js';
 import { createRegexExtractor } from './extractors/regex-extractor.js';
 import { renderReport } from './report.js';
@@ -21,7 +25,9 @@ import type { Extractor } from '../extract/types.js';
 const USAGE = `
 usage: pnpm eval [options]
 
-  --extractor <name>   null | regex        (default: null)
+  --extractor <name>   null | regex | model  (default: null)
+  --model <id>         model id from models/manifest.json, with --extractor=model
+  --context <n>        context size override, for the phase 7 comparison
   --cases <dir>        case directory      (default: ${DEFAULT_CASE_DIR})
   --data <dir>         reference data dir  (default: ${DEFAULT_DATA_DIR})
   --only <substring>   run only cases whose id contains this
@@ -33,6 +39,8 @@ async function main(): Promise<number> {
   const { values } = parseArgs({
     options: {
       extractor: { type: 'string', default: 'null' },
+      model: { type: 'string', default: 'qwen3-8b-q4km' },
+      context: { type: 'string' },
       cases: { type: 'string', default: DEFAULT_CASE_DIR },
       data: { type: 'string', default: DEFAULT_DATA_DIR },
       only: { type: 'string' },
@@ -49,7 +57,11 @@ async function main(): Promise<number> {
   }
 
   const referenceData = loadReferenceData(values.data);
-  const extractor = buildExtractor(values.extractor ?? 'null', referenceData);
+  const built = await buildExtractor(values.extractor ?? 'null', referenceData, {
+    modelId: values.model ?? 'qwen3-8b-q4km',
+    ...(values.context === undefined ? {} : { contextSize: Number(values.context) }),
+  });
+  const extractor = built.extractor;
 
   let cases = loadCases(values.cases);
   if (values.only !== undefined) {
@@ -58,6 +70,7 @@ async function main(): Promise<number> {
     if (cases.length === 0) throw new Error(`no case id contains "${needle}"`);
   }
 
+  try {
   const report = await runEval(cases, extractor, (event) => {
     if (values.quiet === true) return;
     process.stderr.write(
@@ -76,16 +89,38 @@ async function main(): Promise<number> {
 
   // Exit non-zero when the release gate fails, so this can gate a build.
   return report.scores.summary.gatePassed ? 0 : 1;
+  } finally {
+    await built.dispose();
+  }
 }
 
-function buildExtractor(name: string, data: ReturnType<typeof loadReferenceData>): Extractor {
+type BuiltExtractor = { extractor: Extractor; dispose: () => Promise<void> };
+
+async function buildExtractor(
+  name: string,
+  data: ReturnType<typeof loadReferenceData>,
+  model: { modelId: string; contextSize?: number },
+): Promise<BuiltExtractor> {
+  const noop = async (): Promise<void> => {};
   switch (name) {
     case 'null':
-      return createNullExtractor();
+      return { extractor: createNullExtractor(), dispose: noop };
     case 'regex':
-      return createRegexExtractor(data);
+      return { extractor: createRegexExtractor(data), dispose: noop };
+    case 'model': {
+      const entry = findModel(loadManifest(), model.modelId);
+      const provider = await NodeLlamaProvider.create({
+        entry,
+        modelPath: requireModelFile(entry),
+        ...(model.contextSize === undefined ? {} : { contextSize: model.contextSize }),
+      });
+      return {
+        extractor: createModelExtractor({ provider, referenceData: data }),
+        dispose: () => provider.dispose(),
+      };
+    }
     default:
-      throw new Error(`unknown extractor "${name}". Known: null, regex.`);
+      throw new Error(`unknown extractor "${name}". Known: null, regex, model.`);
   }
 }
 

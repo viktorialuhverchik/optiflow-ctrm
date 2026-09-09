@@ -1,0 +1,15 @@
+{
+  "models": [
+    {
+      "id": "qwen3-8b-q4km",
+      "file": "models/Qwen3-8B-Q4_K_M.gguf",
+      "sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+      "sizeBytes": 5027783488,
+      "source": "https://huggingface.co/Qwen/Qwen3-8B-GGUF",
+      "parameters": "8B",
+      "quantisation": "Q4_K_M",
+      "contextSize": 8192,
+      "notes": "Primary candidate. The hash is the upstream LFS object id, so a re-download can be checked against it without trusting this machine. Q4_K_M rather than a lower-bit quant because every field that matters here is a number and digits degrade first. Context is 8192 rather than the model's native 32768: recaps are short, the longest case in the set is a three-deep email thread, and a smaller KV cache leaves headroom on 16 GB."
+    }
+  ]
+}

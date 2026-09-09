@@ -24,12 +24,26 @@ import { z } from 'zod';
 export const FIELD_STATUSES = ['stated', 'absent', 'ambiguous'] as const;
 export type FieldStatus = (typeof FIELD_STATUSES)[number];
 
+/**
+ * Leaf value types.
+ *
+ * Each is defined once and reused, so the grammar builder can identify a leaf by
+ * object identity and emit a token-level rule for it. That is why these are
+ * module constants rather than inline expressions: `src/llm/grammar.ts` compares
+ * against them to decide whether a field decodes as a decimal, a date, a
+ * currency code or free text.
+ */
+
 /** Plain decimal text. Numbers never pass through a float (code-style §5). */
-const decimalText = z
+export const decimalText = z
   .string()
   .regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?$/, 'plain decimal, no thousands separators');
 
-const isoDateText = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'YYYY-MM-DD');
+export const isoDateText = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'YYYY-MM-DD');
+
+export const currencyText = z.string().regex(/^[A-Z]{3}$/, 'ISO 4217 code');
+
+export const freeText = z.string().min(1);
 
 function field<T extends z.ZodType>(inner: T) {
   return z.object({
@@ -62,12 +76,12 @@ export const APPOINTED_BY = ['seller', 'buyer', 'both'] as const;
 
 export const DealSchema = z.object({
   recap_date: field(isoDateText),
-  buyer: field(z.string().min(1)),
-  seller: field(z.string().min(1)),
+  buyer: field(freeText),
+  seller: field(freeText),
 
   product: z.object({
-    as_written: field(z.string().min(1)),
-    product_code: field(z.string().min(1)),
+    as_written: field(freeText),
+    product_code: field(freeText),
   }),
 
   quantity: z.object({
@@ -79,32 +93,32 @@ export const DealSchema = z.object({
 
   delivery_term: z.object({
     // B5: what the recap actually said, even when it is not an Incoterm.
-    as_written: field(z.string().min(1)),
+    as_written: field(freeText),
     incoterm: field(z.enum(INCOTERMS)),
-    place: field(z.string().min(1)),
+    place: field(freeText),
   }),
 
   delivery_window: z.object({
-    as_written: field(z.string().min(1)),
+    as_written: field(freeText),
     from: field(isoDateText),
     to: field(isoDateText),
   }),
 
   // B8: a formula, never collapsed into one number.
   pricing: z.object({
-    quote_code: field(z.string().min(1)),
+    quote_code: field(freeText),
     statistic: field(z.enum(STATISTIC_VALUES)),
-    period: field(z.string().min(1)),
+    period: field(freeText),
     differential: z.object({
       value: field(decimalText),
       unit: field(z.enum(PRICE_UNIT_VALUES)),
     }),
   }),
 
-  currency: field(z.string().regex(/^[A-Z]{3}$/, 'ISO 4217 code')),
+  currency: field(currencyText),
 
   payment_terms: z.object({
-    as_written: field(z.string().min(1)),
+    as_written: field(freeText),
     shape: field(z.enum(PAYMENT_SHAPES)),
     days: field(decimalText),
     days_from: field(z.enum(PAYMENT_ANCHORS)),
@@ -115,22 +129,22 @@ export const DealSchema = z.object({
   // --- conditional from here down: absence is not an error --------------
   fx: z.object({
     rate: field(decimalText),
-    basis: field(z.string().min(1)),
+    basis: field(freeText),
   }),
-  quality_spec: field(z.string().min(1)),
+  quality_spec: field(freeText),
   inspection: z.object({
-    inspector: field(z.string().min(1)),
+    inspector: field(freeText),
     appointed_by: field(z.enum(APPOINTED_BY)),
-    cost_split: field(z.string().min(1)),
+    cost_split: field(freeText),
   }),
   demurrage: z.object({
     rate_per_day: field(decimalText),
-    currency: field(z.string().regex(/^[A-Z]{3}$/, 'ISO 4217 code')),
+    currency: field(currencyText),
   }),
-  law: field(z.string().min(1)),
-  arbitration: field(z.string().min(1)),
-  vessel: field(z.string().min(1)),
-  notes: field(z.string().min(1)),
+  law: field(freeText),
+  arbitration: field(freeText),
+  vessel: field(freeText),
+  notes: field(freeText),
 });
 
 export type Deal = z.infer<typeof DealSchema>;
@@ -227,4 +241,58 @@ export function emptyDeal(): Deal {
     return out;
   };
   return DealSchema.parse(build(DealSchema));
+}
+
+// --------------------------------------------------------------------------
+// Schema introspection for the grammar builder
+// --------------------------------------------------------------------------
+
+/**
+ * What a leaf field decodes as, at the token level.
+ *
+ * The grammar builder needs more than "string": a quantity and a laycan are both
+ * strings to Zod, and letting the model emit `"30,000"` for one or `"early Oct"`
+ * for the other is how a parse quietly becomes a different number. Identifying
+ * the leaf here lets the grammar forbid those before a token is chosen.
+ */
+export type LeafKind =
+  | { readonly kind: 'text' }
+  | { readonly kind: 'decimal' }
+  | { readonly kind: 'iso_date' }
+  | { readonly kind: 'currency' }
+  | { readonly kind: 'enum'; readonly values: readonly string[] };
+
+export type SchemaNode =
+  | { readonly kind: 'object'; readonly children: ReadonlyArray<readonly [string, SchemaNode]> }
+  | { readonly kind: 'field'; readonly leaf: LeafKind };
+
+function leafKindOf(inner: z.ZodType): LeafKind {
+  if (inner === decimalText) return { kind: 'decimal' };
+  if (inner === isoDateText) return { kind: 'iso_date' };
+  if (inner === currencyText) return { kind: 'currency' };
+  if (inner === freeText) return { kind: 'text' };
+  if (inner instanceof z.ZodEnum) {
+    return { kind: 'enum', values: Object.values(inner.enum) as string[] };
+  }
+  // Deliberately fatal. A new leaf type that the grammar does not know about
+  // would silently decode as free text, which is the failure this whole
+  // mechanism exists to prevent.
+  throw new Error('unrecognised leaf schema: add it to leafKindOf in schema.ts');
+}
+
+/** The deal schema as a tree the grammar builder can walk. Key order is stable. */
+export function describeSchema(schema: z.ZodObject = DealSchema): SchemaNode {
+  const children: Array<readonly [string, SchemaNode]> = [];
+  for (const [key, value] of Object.entries(schema.shape)) {
+    if (isFieldEnvelope(value)) {
+      const envelope = value as z.ZodObject;
+      const valueSchema = envelope.shape['value'];
+      if (valueSchema === undefined) throw new Error(`field ${key} has no value schema`);
+      const unwrapped = valueSchema instanceof z.ZodNullable ? valueSchema.unwrap() : valueSchema;
+      children.push([key, { kind: 'field', leaf: leafKindOf(unwrapped as z.ZodType) }]);
+    } else if (value instanceof z.ZodObject) {
+      children.push([key, describeSchema(value)]);
+    }
+  }
+  return { kind: 'object', children };
 }
