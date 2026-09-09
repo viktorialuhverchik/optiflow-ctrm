@@ -108,7 +108,7 @@ the text and reports what it saw, with the span it saw it in. Every number that
 could reach an invoice is computed by pure code with unit tests. This shrinks the
 hallucination surface to the one thing a language model is actually good at.
 
-Three mechanisms carry the abstention behaviour:
+Four mechanisms carry the abstention behaviour:
 
 1. **Every field is nullable in the decoding grammar itself.** If the grammar has
    no legal path to "not stated", constrained decoding forces the model, token by
@@ -168,21 +168,38 @@ pnpm eval --extractor=regex
 This prints the whole table: per case, per outcome, per class, and the release
 gate. The regex baseline fails the gate, which is the point of it.
 
-**3. Fetch the weights.** 4.7 GB. The file is not committed; the manifest that
-pins it by SHA-256 is.
+**3. Fetch the weights.** Two models are listed in the manifest. **You only need
+the first one** to run everything except the configuration comparison.
+
+Qwen3-8B, 4.7 GB. This is the shipped model and every headline number in this
+README comes from it.
 
 ```bash
 curl -L -o models/Qwen3-8B-Q4_K_M.gguf https://huggingface.co/Qwen/Qwen3-8B-GGUF/resolve/main/Qwen3-8B-Q4_K_M.gguf
 ```
 
+Qwen3-4B, 2.3 GB. **Optional.** It exists only to reproduce the model-size row of
+the configuration table, and it is not the shipped model.
+
 ```bash
-pnpm model:verify
+curl -L -o models/Qwen3-4B-Q4_K_M.gguf https://huggingface.co/Qwen/Qwen3-4B-GGUF/resolve/main/Qwen3-4B-Q4_K_M.gguf
 ```
+
+If you took only the 8B, verify just that one:
+
+```bash
+pnpm model:verify --model qwen3-8b-q4km
+```
+
+With no `--model` it checks everything in the manifest, so it will report the 4B
+as `MISSING` and exit non-zero if you skipped it. That is the command doing its
+job rather than a broken setup, and it prints the exact `curl` line for anything
+absent. Nothing else needs the 4B: the extractor, the eval, the MCP server and the
+demo all default to the 8B.
 
 `model:verify` hashes what is on disk and compares it to the manifest. The hash
 there is the upstream Hugging Face LFS object id, so it can be checked against the
-source rather than only against whatever this machine downloaded. If a model is
-missing, the command prints the exact `curl` line to fetch it.
+source rather than only against whatever this machine downloaded.
 
 **4. Extract a recap.**
 
@@ -216,11 +233,13 @@ forty seconds a recap.
 pnpm eval --extractor=model
 ```
 
-Run from a clean checkout, that reproduced the committed report exactly: 86.6%
+Run from a clean checkout, this reproduced the committed report exactly: 86.6%
 accuracy, 100% correct abstention, zero invented values, gate passing. Only the
-latency moved, 41.0 s against 41.4 s at p50, which is why the JSON report keeps
-scores and timings in separate blocks. The scores block is meant to be diffable
-between runs; the timings block never can be.
+latency moved, 41.0 s here against 41.4 s in the committed run.
+
+Expect the same when you run it. The scores should match to the digit; the
+latency will not, and neither will the memory figure. Nothing is wrong if they
+differ.
 
 ### The MCP server
 
@@ -258,11 +277,12 @@ the same registered tools that `pnpm mcp` exposes.
 
 ## How do I run the evaluation?
 
-Step 2 and step 5 of the walkthrough above are the two you need. This section is
-the rest of the surface.
+Steps 2 and 5 of the walkthrough are the two commands you need. This section is
+the rest of the surface, for reproducing or extending the numbers below.
 
 `--extractor` selects what is being measured: `model`, or the `null` and `regex`
-baselines.
+baselines. `--model` and `--scope` select a configuration; both default to the
+shipped one.
 
 ```bash
 pnpm eval --extractor=model --report reports/run.json
@@ -279,7 +299,8 @@ prompt versions below were caught. `eval:configs` puts quality, latency and memo
 for several runs side by side, which is the configuration table further down.
 
 The table goes to stdout, progress goes to stderr, and the command exits non-zero
-when the release gate fails, so it can gate a build directly.
+when the release gate fails, so it can gate a build directly. A non-zero exit from
+`--extractor=regex` is therefore expected: that baseline is supposed to fail.
 
 Cases live in `data/eval-cases/`, one directory each, holding the recap, a flat
 map of expected field values, and a metadata file with the case class and the
@@ -303,9 +324,15 @@ Each mandatory field in each case lands in exactly one of six buckets:
 | `wrong_value` | produced a different value |
 | `confident_nonsense` | expected null, produced a number. **The one that costs money.** |
 
-Headline metric is the **silent error rate**: the fraction of cases with at least
-one wrong mandatory field that carried no question. The release gate is
-`confident_nonsense` on any pricing or quantity field being zero.
+The **release gate** is the number to look at first: `confident_nonsense` on any
+pricing or quantity field must be zero. It is binary and the build fails on it.
+
+The **silent error rate** is the fraction of cases carrying at least one wrong
+mandatory field that nobody was asked about. It is reported two ways, and the
+distinction matters. Over all mandatory fields it saturates, because with twenty
+fields a case and accuracy in the eighties almost every case has one. Restricted
+to the money-critical fields it does not, and that is the version to steer by.
+Both appear in every table below, labelled.
 
 Two baselines ship alongside the model extractor and are built first: an all-null
 extractor and a regex extractor. The first proves the metric cannot be gamed by
@@ -314,9 +341,15 @@ refusing everything. The second gives a floor the model has to beat.
 ## What were the results?
 
 All twenty cases, from `pnpm eval`. The two baselines exist to calibrate the
-metric; the model column is the system under test.
+metric; the Qwen3-8B column is the shipped system, and it is the configuration you
+get by running `pnpm eval --extractor=model` with no other flags.
 
-| | null baseline | regex baseline | Qwen3-8B |
+The numbers below come from `reports/model-v7-normalised.json`, which is the
+canonical result. The other files under `reports/` are the earlier attempts and
+the configuration runs; they are kept because the path matters, not because any of
+them is the answer.
+
+| | null baseline | regex baseline | **Qwen3-8B, shipped** |
 |---|---|---|---|
 | field accuracy | 0.0% | 78.7% | 86.6% |
 | correct abstention | 100.0% | 84.2% | 100.0% |
@@ -327,8 +360,7 @@ metric; the model column is the system under test.
 | p50 latency per recap | under 1 ms | under 1 ms | 41.4 s |
 | release gate | pass | **fail** | **pass** |
 
-Cases scored: 20. Mandatory fields scored: 400. Every report is committed under
-`reports/`.
+Cases scored: 20. Mandatory fields scored: 400.
 
 The model beats both baselines on every axis except latency. It never invents a
 money-critical value, it asks about every field it refuses, and it is eight points
@@ -336,7 +368,8 @@ more accurate than the patterns. It costs forty seconds a recap against under a
 millisecond, which for a message a trader types once and a desk pays an analyst to
 re-key is not the binding constraint.
 
-By case class:
+By case class. These are field accuracy within each class, so they do not average
+to the headline: the classes hold different numbers of cases.
 
 | class | regex | Qwen3-8B |
 |---|---|---|
@@ -350,9 +383,13 @@ By case class:
 ### How it got there
 
 The first working version did not beat the regex baseline and was less safe than
-it. Phase 6 was six measured runs, each a hypothesis kept only when the table
+it. What follows is six measured runs, each a hypothesis kept only when the table
 improved. The whole progression is committed, including the two changes that were
 rejected.
+
+**This is history, not a menu.** v7 is the only version that exists in the code;
+v1 to v6 were superseded and are not selectable flags. They are here because the
+route matters and because two of them were wrong.
 
 | run | what changed | accuracy | abstention | invented | silent money | gate |
 |---|---|---|---|---|---|---|
@@ -385,8 +422,9 @@ Two other things are worth recording because they were wrong.
 **v3 disproved my own diagnosis.** When v2 lifted accuracy but cost abstention, I
 assumed the extra prompt length was priming refusal, and compressed it. Accuracy
 moved half a point and the abstention loss and the extra invented value stayed
-exactly where they were. The hypothesis was wrong, and the run is committed rather
-than deleted.
+exactly where they were. The hypothesis was wrong. The run is committed rather
+than deleted, and its lesson is kept: the fix that eventually worked was not a
+better sentence at all.
 
 **v6 was a bug in the check I had just written.** The quotation rule matched
 substrings, so the token "10" from "Platts CIF NWE ULSD 10 ppm" matched inside the
@@ -444,8 +482,8 @@ turns into a different number. The grammar now constrains numeric fields to a
 plain decimal shape rather than to any string, and that was fixed before the first
 eval run.
 
-No repair retry fired across twenty cases in any of the ten model runs, which says
-the grammar plus Zod combination holds the shape without needing a fallback.
+No repair retry fired across twenty cases in any of the eleven model runs, which
+says the grammar plus Zod combination holds the shape without needing a fallback.
 
 Verbatim evidence checking rejected nothing, which is weaker news than it sounds:
 the model quoted real text every time, not the right text. Case 8 takes the
@@ -456,27 +494,41 @@ the thread cases exist.
 
 ### Configurations compared
 
-`pnpm eval:configs`, three runs over the same twenty cases on an Apple M2 Pro with
-16 GB. Two axes: model size, and how many fields the model is asked for.
+`pnpm eval:configs`, four runs over the same twenty cases on an Apple M2 Pro with
+16 GB. Two axes crossed: model size, and how many fields the model is asked for.
+The first column is the shipped default; the rest are what it was measured against.
 
-| | 8B, all fields | 4B, all fields | 8B, mandatory only |
-|---|---|---|---|
-| **field accuracy** | 86.6% | 58.5% | **88.5%** |
-| correct abstention | 100.0% | 100.0% | 100.0% |
-| over-refusal | 8.4% | 35.4% | 6.0% |
-| invented values | 0 | 0 | 0 |
-| silent error, money fields | 10.0% | 5.0% | 10.0% |
-| release gate | pass | pass | pass |
-| **p50 seconds per recap** | 41.7 | **23.1** | 27.2 |
-| p95 seconds per recap | 48.7 | 25.0 | 33.8 |
-| whole suite, seconds | 846 | 469 | 567 |
-| completion tokens per recap | 1063 | 932 | 647 |
-| completion tokens/s | 25.1 | 39.7 | 22.8 |
-| **peak resident memory MiB** | 6181 | **3455** | 5783 |
-| model load seconds | 2.0 | 2.2 | 3.7 |
+```bash
+pnpm eval --extractor=model                                             # column 1
+pnpm eval --extractor=model --model=qwen3-4b-q4km                       # column 2
+pnpm eval --extractor=model --scope=mandatory                           # column 3
+pnpm eval --extractor=model --model=qwen3-4b-q4km --scope=mandatory     # column 4
+```
+
+| | **8B all, shipped** | 4B all | 8B mandatory | 4B mandatory |
+|---|---|---|---|---|
+| **field accuracy** | 86.6% | 58.5% | **88.5%** | 63.0% |
+| correct abstention | 100.0% | 100.0% | 100.0% | 100.0% |
+| over-refusal | 8.4% | 35.4% | 6.0% | 31.0% |
+| invented values | 0 | 0 | 0 | 0 |
+| silent error, money fields | 10.0% | 5.0% | 10.0% | 5.0% |
+| release gate | pass | pass | pass | pass |
+| **p50 seconds per recap** | 41.7 | 23.1 | 27.2 | **15.5** |
+| p95 seconds per recap | 48.7 | 25.0 | 33.8 | 18.6 |
+| whole suite, seconds | 846 | 469 | 567 | 319 |
+| completion tokens per recap | 1063 | 932 | 647 | 566 |
+| **peak resident memory MiB** | 6181 | 3455 | 5783 | 3820 |
 
 Prompt tokens are 1954 per recap in every configuration, because the prompt does
 not change.
+
+**On the latency figures moving between tables.** The shipped configuration is
+reported at 41.4 s p50 in the results table, 41.7 s here and 41.0 s in the
+walkthrough. Those are three separate runs of the same code against the same
+weights, and the spread is what timing variance on a laptop looks like. The
+scores did not move at all across those runs. That asymmetry is the reason the
+JSON report keeps scores and timings in different blocks: one is meant to be
+diffed, the other cannot be.
 
 **Halving the model halves the memory and collapses the quality.** Qwen3-4B at the
 same quantisation is 44% faster in 56% of the memory and loses 28 points of
@@ -486,10 +538,12 @@ compliment it looks like: it refuses so much that little wrong gets through. Tha
 is the null baseline's failure mode reappearing in a model, and it is why accuracy
 and abstention are never averaged into one number.
 
-**Asking for fewer fields made it both faster and more accurate.** Dropping the
-nineteen conditional fields cut p50 latency by 35% and raised mandatory-field
-accuracy by 1.9 points. The conditional fields were costing accuracy on the
-required ones, not only time.
+**Asking for fewer fields made it both faster and more accurate, on both models.**
+Dropping the nineteen conditional fields cut p50 latency by 35% on the 8B and 33%
+on the 4B, and raised mandatory-field accuracy by 1.9 and 4.5 points respectively.
+The conditional fields were costing accuracy on the required ones, not only time,
+and the effect holding across a model size makes it more likely to be real than a
+single run would.
 
 **That is not the free win it appears to be, and the eval nearly hid it.** The
 summary scores mandatory fields only, so a configuration that simply abandons
@@ -505,17 +559,16 @@ thirty-nine-field object that is output the model pays for and nothing reads.
 Dropping the conditional fields, above. Building the grammar once per run rather
 than per case.
 
-**Did not work.** The smaller model, on quality. Compressing the system prompt in
-phase 6, which I expected to recover an abstention regression and which moved
-nothing, disproving my own diagnosis.
+**Did not work.** The smaller model, on quality: 44% faster and 28 points less
+accurate. Compressing the system prompt, which I expected to recover an abstention
+regression and which moved nothing, disproving my own diagnosis.
 
 **Not tried, and worth it.** Two-tier extraction: a mandatory pass always, a
 conditional pass only when the deal is being drafted into a contract. On these
-numbers that is a 35% latency cut with no loss, because the conditional fields are
-by definition not needed to decide whether a deal is usable. After that,
-speculative decoding with the 4B drafting for the 8B, which is exactly the shape
-this workload suits: a long, highly constrained output where most tokens are
-structural and easy to predict.
+numbers that is a 35% latency cut and a small accuracy gain, with the caveat that
+`fx.rate` would have to move into the first tier. After that, speculative decoding
+with the 4B drafting for the 8B, which suits this workload exactly: a long, highly
+constrained output where most tokens are structural and easy to predict.
 
 ### What a real GPU budget would change
 
@@ -529,20 +582,27 @@ to ten times higher, so the same model at the same quantisation runs proportiona
 faster with no other change. Batching becomes worthwhile, and this workload is
 embarrassingly batchable: twenty recaps are twenty independent prompts, and the
 eval suite would drop from fourteen minutes to under one. And the 16 GB ceiling
-lifts, which is what actually matters for quality, because the two remaining
-reasoning failures are the thread cases and those are where a 30B or 70B model
-would be expected to help most. I would spend the budget on capacity before speed.
+lifts, which is what actually matters for quality, because all three remaining
+reasoning failures are thread cases and those are where a 30B or 70B model would be
+expected to help most. I would spend the budget on capacity before speed.
 
 ### Agent spend
 
-**Not reported.** This is a Part 4 deliverable and I cannot read it from inside
-the session. It is the one number in this write-up that is missing rather than
-measured, and I am not going to estimate it.
+**Not reported.** This is a Part 4 deliverable and it is the one figure in this
+write-up that is missing rather than measured. It was built with coding agents and
+the cost is real, but I have no way to read it from inside the session and I am
+not going to put a guess in a document whose whole claim is that its numbers came
+from commands in this repository.
 
 ### The MCP demo
 
 `pnpm mcp:demo`, five runs in each mode. The model chooses the tool calls. Every
 number in the answer is computed by `src/domain/valuation.ts`.
+
+**Read the figure below as the pipeline's output, not as the right answer.** It is
+built from the extractor's own reading of the recap, and that reading has one
+field wrong. The correct figure is USD 15,025,834; the gap is explained under the
+table.
 
 ```
 component                                    value
@@ -589,85 +649,108 @@ is 5 of 5 on everything the agent controls, at a quarter of the latency. A local
 model of this size can drive tools reliably; it cannot be trusted to invent the
 call format while it does so.
 
-**The one wrong number in the answer is the extractor's, not the agent's.** The
-agent passed on the statistic `parse_recap` gave it in all five runs. That
-statistic is wrong: the recap says mean of the high quotations and the extractor
-read a plain mean. Priced correctly the same cargo is USD 15,025,834, a difference
-of USD 39,551 on one field. Nothing else in the pipeline would have caught it. The
-eval scores it as wrong, which is the entire argument for building the harness
-first.
+**The wrong number is the extractor's, not the agent's.** The agent passed on the
+statistic `parse_recap` gave it in all five runs, which is the behaviour you want
+from an agent. The statistic itself is wrong: the recap says mean of the high
+quotations and the extractor read a plain mean. Priced correctly the same cargo is
+USD 15,025,834, a difference of USD 39,551 on one field.
+
+That gap is the whole argument for building the harness first. The demo output
+looks entirely reasonable. Nothing in the pipeline flags it, no assumption line
+mentions it, and a trader reading the invoice would have no reason to look. The
+only thing that catches it is a committed expected value in
+`data/eval-cases/02-naphtha-cfr-rotterdam-thread/expected.json`, which is why the
+eval scores that field as wrong and why it is listed under known problems.
 
 A full transcript of all ten runs is committed at
 `reports/mcp-demo-transcript.md`.
 
 ## What are the known problems?
 
-Each one names the eval case that exposes it, so a reviewer can reproduce it with
-`pnpm eval --only <case>` rather than take my word for it.
+Grouped by what they cost, worst first. Each one that shows up in the eval names
+the case, so it can be reproduced with `pnpm eval --only <case>` rather than taken
+on trust.
+
+### Wrong output the system ships today
+
+Three money-critical fields across twenty cases come back wrong with no question
+attached. All three are in forwarded threads.
+
+- **A superseded value taken from a thread.**
+  `08-naphtha-thread-quantity-amended` amends the quantity and the tolerance in a
+  later message, and the extractor takes the original pair. Both are quoted
+  accurately from the message, so no amount of evidence checking catches it. The
+  superseded figures are written out inside the correcting message itself, which
+  is exactly what makes it hard.
+- **A pricing basis read one word too shallow.**
+  `02-naphtha-cfr-rotterdam-thread` says "mean of the HIGH quotations" and the
+  extractor reports a plain mean. The MCP demo prices the difference: USD 39,551
+  on a USD 15 M cargo, from one field, with nothing else in the pipeline flagging it.
+- **Threads are the hard part and remain so.** The class scores 77.5%, eleven
+  points below the next worst, and holds all three failures above. Distractors, by
+  contrast, turned out easy at 90.0%: a second cargo mentioned in passing is
+  simpler to ignore than a correction is to apply.
+
+### Limits of the mechanisms
 
 - **Constrained decoding cannot make a model correct, only well-formed.** It kept
-  every answer parseable across seven runs and 140 extractions with no repair
-  retry, and it did nothing at all about the four invented values. Those needed
-  deterministic checks in code.
+  every answer parseable across eleven full model runs and more than two hundred
+  extractions, with no repair retry ever firing, and it did nothing at all about
+  the four invented values. Those needed deterministic checks in code.
 - **The support checks are pattern rules and will misfire.** A quantity a trader
   legitimately described as "about" would be refused, and a quotation named only
   by its publication would be dropped. They fail toward over-refusal by
   construction, which is the safe direction, but the cost is real: 8.4% of fields
   that were stated come back refused.
-- **The extraction is not incremental.** Re-reading a thread re-extracts the whole
+- **Native tool calling is unusable on this model**, at 0 of 5 completed runs. The
+  grammar-constrained fallback works, but an off-the-shelf MCP client pointed at
+  this server will not get through a two-step question on its own. Anything
+  driving these tools needs constrained decoding on its side too.
+- **The provider is single-sequence and not re-entrant.** An MCP tool handler that
+  calls back into the model during generation used to corrupt both silently. It
+  now throws, which is correct, but concurrent requests need a second provider and
+  a second five gigabytes.
+
+### Limits of the evaluation
+
+The eval is the thing everything else is judged by, so its weaknesses matter more
+than they look.
+
+- **Twenty cases is small, and seventeen of them are invented.** Several classes
+  hold two cases, so a class percentage moves in large steps and should be read as
+  a direction rather than a measurement. The invented cases carry my assumptions
+  about how traders write; the three supplied recaps are the only ground truth
+  about real phrasing in the set. They were all written before any extractor was
+  tuned, so at least they are not fitted to a model's habits.
+- **Expected values are hand-written and encode judgement calls.** Whether
+  "Augusta, Italy" or "Augusta" is the delivery place, and whether a spec
+  qualifier belongs to the product field, are decisions rather than facts. They
+  are written down as numbered conventions in the constraints document so a
+  reviewer can disagree with the rule rather than guess at the intent. The loader
+  validates them against the schema, which catches shape mistakes and not wrong
+  values.
+- **Headline accuracy covers mandatory fields only.** That is deliberate, and it
+  means a configuration that simply abandons the conditional fields scores better
+  while doing less. The mandatory-scope column of the configuration table is
+  exactly that, and it is why the shipped default is not that column.
+
+### Operational limits
+
+- **Extraction is not incremental.** Re-reading a thread re-extracts the whole
   deal from scratch. A desk amending one field pays the full forty seconds again,
   and nothing carries the earlier answer forward.
-- **Evidence checking catches invented values, not misattributed ones.**
-  `08-naphtha-thread-quantity-amended` takes the superseded quantity and tolerance
-  from a forwarded thread and quotes both accurately from the message. No amount
-  of verbatim checking catches that. It is two of the three remaining unflagged
-  money-field errors, and the amendment is written out in the correcting message
-  itself, so a reader that matches the nearest number to the field gets it wrong.
-- **A pricing basis can be read one word too shallow.**
-  `02-naphtha-cfr-rotterdam-thread` says "mean of the HIGH quotations" and the
-  extractor reports a plain mean. That is the third unflagged money-field error,
-  and the MCP demo prices it: USD 39,551 on a USD 15 M cargo, from one field.
-- **Threads are the hard part, and remain so.** At 77.5% the class is eleven
-  points below the next worst, and all three remaining reasoning failures are in
-  it. Distractors turned out not to be hard, at 90.0%: a second cargo mentioned in
-  passing is easier to ignore than a correction is to apply.
-- **Reproducibility is bounded.** It holds for a fixed model file and a fixed
-  runtime version. Bit-identity across llama.cpp versions is not claimed.
-- **Twenty cases is small.** Several classes hold two cases, so a class
-  percentage moves in large steps and should be read as a direction rather than a
-  measurement. The cases were written before any extractor was tuned, so at least
-  they are not fitted to a model's habits.
-- **Seventeen of the twenty cases are invented**, which means they carry the
-  assumptions of whoever wrote them about how traders write. The three supplied
-  recaps are the only ground truth about real phrasing in the set.
-- **Expected values encode judgement calls.** Whether "Augusta, Italy" or
-  "Augusta" is the delivery place, and whether a spec qualifier belongs to the
-  product field, are decisions rather than facts. They are written down as rules
-  in the constraints doc so a reviewer can disagree with the rule rather than
-  guess at the intent.
 - **The 16 GB ceiling is real, and now measured.** The 4B that fits comfortably
   loses 28 points of accuracy. The models that would most obviously help with the
   thread cases do not fit at all.
-- **The agent spend is not reported.** It is a Part 4 deliverable and the only
-  number missing from this write-up rather than measured.
-- **The headline accuracy is over mandatory fields only.** That is deliberate, but
-  it means a configuration that abandons the conditional fields scores better
-  while doing less, which is exactly what the mandatory-scope run does. Read the
-  configuration table with that in mind.
-- **Native tool calling is unusable on this model**, at 0 of 5 completed runs. The
-  grammar-constrained fallback works, but it means an off-the-shelf MCP client
-  pointed at this server will not get through the two-step question on its own.
-  Anything driving these tools needs constrained decoding on its side too.
-- **The provider is single-sequence and not re-entrant.** An MCP tool handler that
-  calls back into the model during generation used to corrupt both silently. It
-  now throws, which is correct, but it means concurrent requests need a second
-  provider and a second five gigabytes.
+- **Reproducibility is bounded.** It holds for a fixed model file and a fixed
+  runtime version, and that much is verified. Bit-identity across llama.cpp
+  versions is not claimed.
 - **The provisional value rests on an estimated bill of lading date.** No B/L
   exists, so the window is anchored on the first day of the laycan. The figure
   moves if the vessel loads on another day, which is why every assumption is
-  printed with the number.
-- **Expected outputs are hand-written**, so they carry human error. The loader
-  validates them against the schema, which catches shape mistakes but not wrong values.
+  printed alongside the number.
+- **The agent spend is not reported.** It is a Part 4 deliverable and the only
+  figure in this write-up that is missing rather than measured.
 
 ## What would I do next?
 
@@ -716,7 +799,8 @@ src/     domain/  pure. schema, dates, units, pricing, fx, valuation, questions
          eval/    scorer, runner, report, compare, configs, rescore, baselines
          mcp/     the two tools, the stdio server, the smoke test, the demo
 reports/ every committed run, including the two that were rejected
-models/  manifest.json pins the weights by hash; the .gguf files are not committed
+models/  manifest.json pins the weights by hash, README.md says which to fetch;
+         the .gguf files are not committed
 scripts/ guard-no-frontier-api.mjs, run by `pnpm check`
 ```
 
