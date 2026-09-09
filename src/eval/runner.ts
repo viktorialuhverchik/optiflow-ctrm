@@ -15,20 +15,32 @@ import { scoreCase, summarise, summariseByClass, type CaseScore } from './score.
 
 export type ProgressEvent = { readonly caseId: string; readonly index: number; readonly total: number };
 
+/** Supplied by the caller because only it knows how the model was loaded. */
+export type RunnerOptions = { readonly modelLoadMs?: number };
+
 export async function runEval(
   cases: readonly EvalCase[],
   extractor: Extractor,
   onProgress?: (event: ProgressEvent) => void,
+  options: RunnerOptions = {},
 ): Promise<Report> {
   const ordered = sortCases(cases);
   const scores: CaseScore[] = [];
   const durations = new Map<string, number>();
+  let promptTokens = 0;
+  let completionTokens = 0;
+  let repairAttempts = 0;
+  let evidenceRejections = 0;
 
   for (const [index, evalCase] of ordered.entries()) {
     onProgress?.({ caseId: evalCase.meta.id, index, total: ordered.length });
     const run = await runOne(evalCase, extractor);
     scores.push(run.score);
     durations.set(evalCase.meta.id, run.durationMs);
+    promptTokens += run.promptTokens;
+    completionTokens += run.completionTokens;
+    repairAttempts += run.repairAttempts;
+    evidenceRejections += run.evidenceRejections;
   }
 
   return buildReport(
@@ -37,10 +49,24 @@ export async function runEval(
     summariseByClass(scores),
     scores,
     durations,
+    {
+      modelLoadMs: options.modelLoadMs ?? null,
+      promptTokens,
+      completionTokens,
+      repairAttempts,
+      evidenceRejections,
+    },
   );
 }
 
-type Run = { readonly score: CaseScore; readonly durationMs: number };
+type Run = {
+  readonly score: CaseScore;
+  readonly durationMs: number;
+  readonly promptTokens: number;
+  readonly completionTokens: number;
+  readonly repairAttempts: number;
+  readonly evidenceRejections: number;
+};
 
 async function runOne(evalCase: EvalCase, extractor: Extractor): Promise<Run> {
   const started = performance.now();
@@ -53,6 +79,10 @@ async function runOne(evalCase: EvalCase, extractor: Extractor): Promise<Run> {
     return {
       score: scoreCase(evalCase, output.deal, output.questions),
       durationMs: output.diagnostics.durationMs || performance.now() - started,
+      promptTokens: output.diagnostics.promptTokens ?? 0,
+      completionTokens: output.diagnostics.completionTokens ?? 0,
+      repairAttempts: output.diagnostics.repairAttempts,
+      evidenceRejections: output.diagnostics.evidenceRejections.length,
     };
   } catch (error) {
     // A crashing extractor must not stop the suite or silently vanish from the
@@ -62,6 +92,10 @@ async function runOne(evalCase: EvalCase, extractor: Extractor): Promise<Run> {
     return {
       score: scoreCase(evalCase, emptyDeal(), [], message),
       durationMs: performance.now() - started,
+      promptTokens: 0,
+      completionTokens: 0,
+      repairAttempts: 0,
+      evidenceRejections: 0,
     };
   }
 }

@@ -5,7 +5,7 @@ in sync with reality: if the plan changes, edit the plan.
 
 Legend: `[ ]` todo, `[x]` done, `[~]` in progress, `[-]` dropped with a reason.
 
-**Current position: phases 0 to 6, 8 and 9 complete. The release gate passes. Phase 7, the performance and configuration comparison, is deferred and is the main gap.**
+**Current position: all phases complete. The release gate passes. The one deliverable I cannot produce from inside the session is the agent spend in dollars.**
 
 Guiding decision: **the eval harness is built in phase 2, before the extractor
 exists.** It first scores a stub, then a deliberately dumb baseline. That way,

@@ -14,8 +14,8 @@ import { isIsoDate } from '../domain/brands.js';
 import { normalisePricingPeriod } from '../domain/normalise.js';
 import { generateQuestions, type Unresolvable } from '../domain/questions.js';
 import type { ReferenceData } from '../domain/references.js';
-import { ALL_FIELDS, DealSchema, getField, type Deal } from '../domain/schema.js';
-import { buildDealGrammar } from '../llm/grammar.js';
+import { ALL_FIELDS, DealSchema, emptyDeal, getField, type Deal } from '../domain/schema.js';
+import { buildDealGrammar, type GrammarScope } from '../llm/grammar.js';
 import type { LlmProvider } from '../llm/provider.js';
 import { describeAsDetail } from '../llm/provider.js';
 import { verifyEvidence, type EvidenceRejection } from './evidence.js';
@@ -38,6 +38,11 @@ export type ModelExtractorOptions = {
    */
   readonly maxTokens?: number;
   readonly maxRepairAttempts?: number;
+  /**
+   * `mandatory` asks the model for the twenty required fields only, leaving the
+   * conditional ones absent. Roughly half the output tokens. Measured in phase 7.
+   */
+  readonly scope?: GrammarScope;
   /** Debug hook. Never logs full recap text at info level (code-style §12). */
   readonly onRaw?: (caseId: string, raw: string) => void;
 };
@@ -51,10 +56,11 @@ export function createModelExtractor(options: ModelExtractorOptions): Extractor 
 
   // Built once. It depends only on the schema and the reference codes, and
   // rebuilding it per case would add nothing but latency.
-  const grammarSource = buildDealGrammar({
-    productCodes: referenceData.productCodes,
-    quoteCodes: referenceData.quoteCodes,
-  });
+  const scope: GrammarScope = options.scope ?? 'all';
+  const grammarSource = buildDealGrammar(
+    { productCodes: referenceData.productCodes, quoteCodes: referenceData.quoteCodes },
+    { scope },
+  );
 
   const config: ExtractorConfig = {
     name: 'model',
@@ -65,6 +71,7 @@ export function createModelExtractor(options: ModelExtractorOptions): Extractor 
       max_repair_attempts: maxRepairAttempts,
       grammar_rules: grammarSource.split('\n').length,
       grammar: 'gbnf, generated from the deal schema',
+      field_scope: scope,
       prompt_version: PROMPT_VERSION,
       support_checks: 'on',
     },
@@ -150,6 +157,29 @@ function describeRejection(rejection: EvidenceRejection): string {
 
 type ParseOutcome = { ok: true; deal: Deal } | { ok: false; error: string };
 
+function mergeIntoEmpty(decoded: unknown): unknown {
+  if (typeof decoded !== 'object' || decoded === null) return decoded;
+  const merge = (base: Record<string, unknown>, patch: Record<string, unknown>): void => {
+    for (const [key, value] of Object.entries(patch)) {
+      const existing = base[key];
+      if (
+        typeof value === 'object' &&
+        value !== null &&
+        typeof existing === 'object' &&
+        existing !== null &&
+        !('status' in value)
+      ) {
+        merge(existing as Record<string, unknown>, value as Record<string, unknown>);
+      } else {
+        base[key] = value;
+      }
+    }
+  };
+  const base = emptyDeal() as unknown as Record<string, unknown>;
+  merge(base, decoded as Record<string, unknown>);
+  return base;
+}
+
 function parseDeal(raw: string): ParseOutcome {
   let json: unknown;
   try {
@@ -157,7 +187,11 @@ function parseDeal(raw: string): ParseOutcome {
   } catch (error) {
     return { ok: false, error: `the answer was not valid JSON: ${String(error)}` };
   }
-  const result = DealSchema.safeParse(json);
+  // A mandatory-scope grammar omits the conditional fields entirely, so the
+  // decoded object is a subset of the schema. Fill the gaps as absent rather
+  // than relaxing the schema: downstream code should never have to ask whether
+  // a field exists, only whether it has a value.
+  const result = DealSchema.safeParse(mergeIntoEmpty(json));
   if (!result.success) {
     const first = result.error.issues.slice(0, 3).map((issue) => `${issue.path.join('.')}: ${issue.message}`);
     return { ok: false, error: first.join('; ') };

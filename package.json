@@ -22,7 +22,8 @@
     "eval:rescore": "tsx src/eval/rescore.ts",
     "mcp": "tsx src/mcp/server.ts",
     "mcp:smoke": "tsx src/mcp/smoke.ts",
-    "mcp:demo": "tsx src/mcp/demo.ts"
+    "mcp:demo": "tsx src/mcp/demo.ts",
+    "eval:configs": "tsx src/eval/compare-configs.ts"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.30.0",

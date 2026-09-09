@@ -38,6 +38,17 @@ function main(): number {
 
     const rescored: Report = {
       ...report,
+      // Older reports predate the resources block. Fill it in as absent rather
+      // than fabricating numbers nobody measured.
+      resources: report.resources ?? {
+        peakRssBytes: 0,
+        modelLoadMs: null,
+        promptTokens: 0,
+        completionTokens: 0,
+        tokensPerSecond: 0,
+        repairAttempts: 0,
+        evidenceRejections: 0,
+      },
       scores: {
         summary: summarise(cases),
         byClass: Object.fromEntries(summariseByClass(cases)),

@@ -23,6 +23,21 @@ export type Report = {
     readonly p95Ms: number;
     readonly perCaseMs: Record<string, number>;
   };
+  /**
+   * What the run cost. Separate from `scores` for the same reason timings are:
+   * none of it is reproducible, and it must not pollute a scores diff (D3).
+   */
+  readonly resources: {
+    /** Peak resident set for the whole process, bytes. */
+    readonly peakRssBytes: number;
+    readonly modelLoadMs: number | null;
+    readonly promptTokens: number;
+    readonly completionTokens: number;
+    /** Completion tokens divided by generation time, across the suite. */
+    readonly tokensPerSecond: number;
+    readonly repairAttempts: number;
+    readonly evidenceRejections: number;
+  };
 };
 
 export function percentile(values: readonly number[], p: number): number {
@@ -34,12 +49,27 @@ export function percentile(values: readonly number[], p: number): number {
   return sorted[index] ?? 0;
 }
 
+export type ResourceTotals = {
+  readonly modelLoadMs: number | null;
+  readonly promptTokens: number;
+  readonly completionTokens: number;
+  readonly repairAttempts: number;
+  readonly evidenceRejections: number;
+};
+
 export function buildReport(
   extractor: ExtractorConfig,
   summary: Summary,
   byClass: ReadonlyMap<string, Summary>,
   cases: readonly CaseScore[],
   durationsByCase: ReadonlyMap<string, number>,
+  totals: ResourceTotals = {
+    modelLoadMs: null,
+    promptTokens: 0,
+    completionTokens: 0,
+    repairAttempts: 0,
+    evidenceRejections: 0,
+  },
 ): Report {
   const durations = cases.map((c) => durationsByCase.get(c.caseId) ?? 0);
   const perCaseMs: Record<string, number> = {};
@@ -58,6 +88,19 @@ export function buildReport(
       p95Ms: percentile(durations, 95),
       perCaseMs,
     },
+    resources: {
+      // maxRSS is reported in kilobytes on macOS and Linux alike by Node.
+      peakRssBytes: process.resourceUsage().maxRSS * 1024,
+      modelLoadMs: totals.modelLoadMs,
+      promptTokens: totals.promptTokens,
+      completionTokens: totals.completionTokens,
+      tokensPerSecond:
+        durations.length === 0 || totals.completionTokens === 0
+          ? 0
+          : totals.completionTokens / (durations.reduce((a, b) => a + b, 0) / 1000),
+      repairAttempts: totals.repairAttempts,
+      evidenceRejections: totals.evidenceRejections,
+    },
   };
 }
 
@@ -69,8 +112,29 @@ export function renderReport(report: Report): string {
   blocks.push(renderOutcomes(report.scores.summary));
   blocks.push(renderByClass(report.scores.byClass));
   blocks.push(renderHeadline(report.scores.summary, report.timings));
+  blocks.push(renderResources(report));
 
   return blocks.join('\n\n');
+}
+
+function renderResources(report: Report): string {
+  const r = report.resources;
+  const cases = report.scores.cases.length;
+  const columns: Column[] = [{ header: 'cost' }, { header: 'value', align: 'right' }];
+  const rows: string[][] = [
+    ['peak resident memory MiB', (r.peakRssBytes / 1024 / 1024).toFixed(0)],
+    ['model load ms', r.modelLoadMs === null ? 'n/a' : String(Math.round(r.modelLoadMs))],
+    ['prompt tokens, mean per recap', cases === 0 ? '0' : String(Math.round(r.promptTokens / cases))],
+    [
+      'completion tokens, mean per recap',
+      cases === 0 ? '0' : String(Math.round(r.completionTokens / cases)),
+    ],
+    ['completion tokens/s, end to end', r.tokensPerSecond.toFixed(1)],
+    ['repair retries fired', String(r.repairAttempts)],
+    ['values dropped by the checks', String(r.evidenceRejections)],
+    ['whole suite, seconds', (report.timings.totalMs / 1000).toFixed(0)],
+  ];
+  return renderTable(columns, rows);
 }
 
 function renderHeader(report: Report): string {

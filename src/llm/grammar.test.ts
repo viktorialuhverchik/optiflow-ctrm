@@ -67,6 +67,24 @@ describe('the deal grammar', () => {
     expect(grammar).toContain('"{\\"value\\":"');
   });
 
+  it('drops the conditional fields in mandatory scope', () => {
+    const compact = buildDealGrammar(codes, { scope: 'mandatory' });
+    expect(compact).toContain('f-recap-date');
+    expect(compact).toContain('f-pricing-differential-value');
+    // Conditional fields and the objects that held only conditional fields.
+    for (const rule of ['f-law', 'f-vessel', 'f-notes', 'o-fx', 'o-demurrage', 'o-inspection']) {
+      expect(compact.split('\n').some((l) => l.startsWith(`${rule} `)), rule).toBe(false);
+    }
+    expect(compact.length).toBeLessThan(grammar.length);
+  });
+
+  it('keeps a partially mandatory object, minus its conditional members', () => {
+    const compact = buildDealGrammar(codes, { scope: 'mandatory' });
+    const payment = compact.split('\n').find((l) => l.startsWith('o-payment-terms '));
+    expect(payment).toContain('as_written');
+    expect(payment).not.toContain('late_interest_pct_pa');
+  });
+
   it('refuses to build when the reference data has no codes', () => {
     expect(() => buildDealGrammar({ productCodes: [], quoteCodes: [] })).toThrow();
   });

@@ -31,12 +31,32 @@
  * Output is minified. Whitespace between tokens is output the model pays for and
  * nothing reads, and on a forty-field object it is not a rounding error.
  */
-import { ALL_FIELDS, describeSchema, type LeafKind, type SchemaNode } from '../domain/schema.js';
+import {
+  ALL_FIELDS,
+  MANDATORY_FIELDS,
+  describeSchema,
+  type LeafKind,
+  type SchemaNode,
+} from '../domain/schema.js';
 
 export type GrammarCodes = {
   readonly productCodes: readonly string[];
   readonly quoteCodes: readonly string[];
 };
+
+/**
+ * Which fields the model is asked for.
+ *
+ * `all` is the shipped configuration. `mandatory` drops the nineteen conditional
+ * fields, which is roughly half the output tokens and therefore roughly half the
+ * latency. The conditional fields are the ones the spec says may legitimately be
+ * absent, so a deal is still usable without them; what is lost is the law,
+ * arbitration, inspection, demurrage and vessel detail that a contract drafter
+ * would want. Phase 7 measures what that buys and what it costs.
+ */
+export type GrammarScope = 'all' | 'mandatory';
+
+export type GrammarOptions = { readonly scope?: GrammarScope };
 
 /** Field paths whose value is restricted to a reference-data code. */
 const CODE_FIELDS: Record<string, keyof GrammarCodes> = {
@@ -100,7 +120,9 @@ function leafRuleName(leaf: LeafKind): string {
  * walks the model through the fields in the order the prompt describes them,
  * which matters more on a small model than on a large one.
  */
-export function buildDealGrammar(codes: GrammarCodes): string {
+export function buildDealGrammar(codes: GrammarCodes, options: GrammarOptions = {}): string {
+  const scope = options.scope ?? 'all';
+  const included = new Set<string>(scope === 'all' ? ALL_FIELDS : MANDATORY_FIELDS);
   const rules: string[] = [];
   const seenValueRules = new Map<string, string>();
   let counter = 0;
@@ -150,18 +172,29 @@ export function buildDealGrammar(codes: GrammarCodes): string {
     return name;
   }
 
+  /** True when the subtree contains at least one field we are asking for. */
+  function hasIncluded(node: SchemaNode, path: string): boolean {
+    if (node.kind === 'field') return included.has(path);
+    return node.children.some(([key, child]) =>
+      hasIncluded(child, path === '' ? key : `${path}.${key}`),
+    );
+  }
+
   function objectRuleFor(node: SchemaNode, path: string, name: string): string {
     if (node.kind === 'field') return fieldRuleFor(path, node.leaf);
     const parts: string[] = [];
-    node.children.forEach(([key, child], index) => {
+    let emitted = 0;
+    for (const [key, child] of node.children) {
       const childPath = path === '' ? key : `${path}.${key}`;
+      if (!hasIncluded(child, childPath)) continue;
       const childName =
         child.kind === 'field'
           ? fieldRuleFor(childPath, child.leaf)
           : objectRuleFor(child, childPath, ruleName('o', childPath));
-      const separator = index === 0 ? '"{' : '",';
+      const separator = emitted === 0 ? '"{' : '",';
       parts.push(`${separator}\\"${key}\\":" ${childName}`);
-    });
+      emitted += 1;
+    }
     rules.push(`${name} ::= ${parts.join(' ')} "}"`);
     return name;
   }

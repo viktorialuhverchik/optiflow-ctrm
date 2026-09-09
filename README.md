@@ -4,11 +4,12 @@ Turns a free-text trade recap into one structured deal object, running entirely 
 a self-hosted open-weights model. No frontier-model API anywhere in the extraction
 path.
 
-> **Status: phases 0 to 6, 8 and 9 of `docs/tasks.md` are complete.** The extractor
-> passes the release gate, the MCP server runs, and the local model answers the
-> provisional-value question using both tools. Phase 7, the second configuration
-> and the agent spend, is deferred and is the main gap. No number appears in this
-> README that was not produced by a command in this repository.
+> **Status: all phases of `docs/tasks.md` are complete.** The extractor passes the
+> release gate, the MCP server runs, the local model answers the provisional-value
+> question using both tools, and three configurations are measured. The one thing
+> still missing is the agent spend in dollars, which I cannot read from inside the
+> session. No number appears in this README that was not produced by a command in
+> this repository.
 
 ---
 
@@ -191,14 +192,17 @@ options:
 
 ```bash
 pnpm eval --extractor=model --report reports/run.json
+pnpm eval --extractor=model --model=qwen3-4b-q4km --scope=mandatory
 pnpm eval --only 02-naphtha --extractor=regex
 pnpm eval:compare reports/before.json reports/after.json
+pnpm eval:configs reports/perf-8b-all.json reports/perf-4b-all.json
 ```
 
 `eval:compare` prints the headline movement and every field that changed outcome
 in either direction, then says whether to keep the change. A change that lifts
 accuracy while adding an invented value is rejected, which is how the rejected
-runs in the table below were caught.
+runs in the table below were caught. `eval:configs` puts quality, latency and
+memory for several runs side by side.
 
 The table goes to stdout, progress goes to stderr, and the command exits non-zero
 when the release gate fails, so it can gate a build directly.
@@ -344,9 +348,9 @@ reasoning failures on the hardest cases in the set, and both are open items in
 
 ### The model runtime
 
-Measured by `pnpm model:smoke` on an Apple M2 Pro with 16 GB of unified memory.
-This is the runtime alone, not extraction: it establishes that the model loads,
-decodes deterministically, honours a grammar, and fits.
+Measured by `pnpm model:smoke`. This is the runtime alone, not extraction: it
+establishes that the model loads, decodes deterministically, honours a grammar,
+and fits.
 
 | | |
 |---|---|
@@ -354,47 +358,20 @@ decodes deterministically, honours a grammar, and fits.
 | runtime | llama.cpp b10361 through node-llama-cpp 3.20.0, Metal |
 | context | 8192 tokens, one sequence |
 | model load | 1.1 s |
-| peak resident memory | 6189 MiB |
 | sustained throughput | 31.7 tokens/s over a 303-token generation |
-| short-prompt throughput | 10.1 tokens/s over a 14-token generation |
 | three identical prompts | byte-identical answers |
 | grammar-constrained output | parsed, enums honoured |
 
-The two throughput figures are both real and they measure different things. A
-fourteen-token answer is mostly first-token latency and prompt processing, so its
-rate is not throughput. Extraction output is closer to the long generation than
-the short one, but the recap in the prompt is longer than anything here, so
-neither number predicts end-to-end latency. That gets measured directly at phase 7.
+**One finding from the smoke test was worth acting on immediately.** Asked for the
+quantity in `30,000 MT +/- 10% in seller's option` under a grammar that permitted
+any string, the model returned `"30,000"` with the thousands separator intact. The
+deal schema rejects that, by design, because a separator is where a parse silently
+turns into a different number. The grammar now constrains numeric fields to a
+plain decimal shape rather than to any string, and that was fixed before the first
+eval run.
 
-Peak memory leaves room on a 16 GB machine, which is what makes the 8B the
-sensible starting point rather than the 14B.
-
-**One finding already worth acting on.** Asked for the quantity in
-`30,000 MT +/- 10% in seller's option` under a grammar that permits any string,
-the model returned `"30,000"` with the thousands separator intact. The deal
-schema rejects that, by design, because a separator is where a parse silently
-turns into a different number. The grammar has to constrain the numeric fields to
-a plain decimal shape rather than to any string. That was fixed in the grammar
-before the first eval run, and it is exactly the kind of thing the smoke test
-exists to surface early.
-
-End-to-end extraction, measured by the final eval run over twenty recaps:
-
-| | |
-|---|---|
-| p50 latency per recap | 41.4 s |
-| p95 latency per recap | 49.2 s |
-| whole suite | 14 min 5 s |
-| prompt tokens per recap | roughly 1600 |
-| completion tokens per recap | roughly 1100 |
-| repair retries fired | 0 |
-
-Forty seconds a recap is the honest cost of asking for thirty-nine fields, each
-with an evidence span, in one constrained pass. The all-null object alone is
-2.5 KB of minified JSON. Cutting it is a phase 7 question.
-
-No repair retry fired across twenty cases in any of the seven runs, which says the
-grammar plus Zod combination holds the shape without needing a fallback.
+No repair retry fired across twenty cases in any of the ten model runs, which says
+the grammar plus Zod combination holds the shape without needing a fallback.
 
 Verbatim evidence checking rejected nothing, which is weaker news than it sounds:
 the model quoted real text every time, not the right text. Case 8 takes the
@@ -403,7 +380,90 @@ Verbatim checking cannot catch that, which is why the support checks ask the
 harder question of whether the quoted words support the specific value, and why
 the thread cases exist.
 
-The configuration comparison and agent spend are filled in at phase 7.
+### Configurations compared
+
+`pnpm eval:configs`, three runs over the same twenty cases on an Apple M2 Pro with
+16 GB. Two axes: model size, and how many fields the model is asked for.
+
+| | 8B, all fields | 4B, all fields | 8B, mandatory only |
+|---|---|---|---|
+| **field accuracy** | 86.6% | 58.5% | **88.5%** |
+| correct abstention | 100.0% | 100.0% | 100.0% |
+| over-refusal | 8.4% | 35.4% | 6.0% |
+| invented values | 0 | 0 | 0 |
+| silent error, money fields | 10.0% | 5.0% | 10.0% |
+| release gate | pass | pass | pass |
+| **p50 seconds per recap** | 41.7 | **23.1** | 27.2 |
+| p95 seconds per recap | 48.7 | 25.0 | 33.8 |
+| whole suite, seconds | 846 | 469 | 567 |
+| completion tokens per recap | 1063 | 932 | 647 |
+| completion tokens/s | 25.1 | 39.7 | 22.8 |
+| **peak resident memory MiB** | 6181 | **3455** | 5783 |
+| model load seconds | 2.0 | 2.2 | 3.7 |
+
+Prompt tokens are 1954 per recap in every configuration, because the prompt does
+not change.
+
+**Halving the model halves the memory and collapses the quality.** Qwen3-4B at the
+same quantisation is 44% faster in 56% of the memory and loses 28 points of
+accuracy, most of it to over-refusal at 35.4%. It still passes the release gate
+and its money-field silent error rate is the lowest of the three, which is not the
+compliment it looks like: it refuses so much that little wrong gets through. That
+is the null baseline's failure mode reappearing in a model, and it is why accuracy
+and abstention are never averaged into one number.
+
+**Asking for fewer fields made it both faster and more accurate.** Dropping the
+nineteen conditional fields cut p50 latency by 35% and raised mandatory-field
+accuracy by 1.9 points. The conditional fields were costing accuracy on the
+required ones, not only time.
+
+**That is not the free win it appears to be, and the eval nearly hid it.** The
+summary scores mandatory fields only, so a configuration that simply abandons
+nineteen fields looks strictly better. It loses `fx.rate`, which is conditionally
+mandatory the moment a deal is not in USD, along with law, arbitration, inspection,
+demurrage and vessel. So the shipped default stays `--scope=all`, and the real fix
+is two tiers rather than one narrow pass.
+
+### What I tried to make it faster
+
+**Worked.** Minified JSON in the grammar, with no whitespace between tokens: on a
+thirty-nine-field object that is output the model pays for and nothing reads.
+Dropping the conditional fields, above. Building the grammar once per run rather
+than per case.
+
+**Did not work.** The smaller model, on quality. Compressing the system prompt in
+phase 6, which I expected to recover an abstention regression and which moved
+nothing, disproving my own diagnosis.
+
+**Not tried, and worth it.** Two-tier extraction: a mandatory pass always, a
+conditional pass only when the deal is being drafted into a contract. On these
+numbers that is a 35% latency cut with no loss, because the conditional fields are
+by definition not needed to decide whether a deal is usable. After that,
+speculative decoding with the 4B drafting for the 8B, which is exactly the shape
+this workload suits: a long, highly constrained output where most tokens are
+structural and easy to predict.
+
+### What a real GPU budget would change
+
+Latency here is memory-bandwidth bound, not compute bound. The 8B at Q4_K_M reads
+about 4.7 GB of weights per forward pass, and the M2 Pro has roughly 200 GB/s to
+work with. That sets the ceiling at 25 tokens per second end to end, which is what
+was measured.
+
+With a GPU, three things change and they are worth separating. Bandwidth is five
+to ten times higher, so the same model at the same quantisation runs proportionally
+faster with no other change. Batching becomes worthwhile, and this workload is
+embarrassingly batchable: twenty recaps are twenty independent prompts, and the
+eval suite would drop from fourteen minutes to under one. And the 16 GB ceiling
+lifts, which is what actually matters for quality, because the two remaining
+reasoning failures are the thread cases and those are where a 30B or 70B model
+would be expected to help most. I would spend the budget on capacity before speed.
+
+### Agent spend
+
+**Not reported.** This is a Part 4 deliverable and I cannot read it from inside
+the session. It is the one number in this write-up that is missing rather than
+measured, and I am not going to estimate it.
 
 ### The MCP demo
 
@@ -501,10 +561,15 @@ eval runs.
   product field, are decisions rather than facts. They are written down as rules
   in the constraints doc so a reviewer can disagree with the rule rather than
   guess at the intent.
-- **The 16 GB ceiling is real.** It rules out the model sizes that would most
-  obviously help, and there is no comparison table yet to show what is being
-  given up. Phase 7 is deferred, so the second configuration and the agent spend
-  are the biggest gaps in this write-up.
+- **The 16 GB ceiling is real, and now measured.** The 4B that fits comfortably
+  loses 28 points of accuracy. The models that would most obviously help with the
+  thread cases do not fit at all.
+- **The agent spend is not reported.** It is a Part 4 deliverable and the only
+  number missing from this write-up rather than measured.
+- **The headline accuracy is over mandatory fields only.** That is deliberate, but
+  it means a configuration that abandons the conditional fields scores better
+  while doing less, which is exactly what the mandatory-scope run does. Read the
+  configuration table with that in mind.
 - **Native tool calling is unusable on this model**, at 0 of 5 completed runs. The
   grammar-constrained fallback works, but it means an off-the-shelf MCP client
   pointed at this server will not get through the two-step question on its own.
@@ -530,9 +595,11 @@ Filled in properly once there are numbers. The current plan, in order:
 2. Cut the forty-second latency. Thirty-nine fields with an evidence span each is
    most of the cost, and field-group splitting or a shorter evidence budget are
    both worth a measured run.
-3. Do phase 7: a second configuration, so the quality against latency against
-   memory trade-off is visible rather than asserted. A 4B model at the same
-   quantisation and the 8B at a longer context are the two obvious runs.
+3. Split extraction into two tiers: the twenty mandatory fields always, the
+   nineteen conditional ones only when a deal is being drafted into a contract.
+   The measurement says that is a 35% latency cut and a small accuracy gain, and
+   the reason not to ship it today is `fx.rate`, which is conditionally mandatory
+   and would have to move into the first tier.
 4. Expand the eval set where the per-class breakdown is thin. Four classes hold two
    or four cases, so a class percentage moves in large steps.
 5. Report the agent spend for building this, which is a Part 4 deliverable I
