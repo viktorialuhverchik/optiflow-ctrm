@@ -58,6 +58,16 @@ async function main(): Promise<number> {
     return 0;
   }
 
+  // Someone running `pnpm eval` for the first time gets the null baseline, which
+  // scores zero on everything and looks like a broken system rather than a
+  // deliberate control. Say so once, on stderr, rather than letting them guess.
+  if (values.extractor === 'null') {
+    process.stderr.write(
+      'note: running the "null" baseline, which refuses every field by design.\n' +
+        '      --extractor=regex for the no-model baseline, --extractor=model for the real one.\n',
+    );
+  }
+
   const referenceData = loadReferenceData(values.data);
   const built = await buildExtractor(values.extractor ?? 'null', referenceData, {
     modelId: values.model ?? 'qwen3-8b-q4km',
